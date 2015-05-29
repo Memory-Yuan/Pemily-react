@@ -1,0 +1,17 @@
+{
+  "name": "webpack-practice",
+  "version": "0.0.0",
+  "authors": [
+    "Memory Yuan <memory78078@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+  }
+}
