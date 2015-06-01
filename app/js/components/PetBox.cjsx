@@ -3,7 +3,6 @@ React = require 'react'
 PetAction = require '../actions/PetAction'
 PetStore = require '../stores/PetStore'
 PetList = require './PetList'
-PetModalTrigger = require './PetModalTrigger'
 PetModalPayload = require './PetModalPayload'
 RB = require 'react-bootstrap'
 Button = RB.Button
