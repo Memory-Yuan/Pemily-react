@@ -6,6 +6,7 @@ PetList = require './PetList'
 PetModalPayload = require './PetModalPayload'
 RB = require 'react-bootstrap'
 Button = RB.Button
+DocumentTitle = require 'react-document-title'
 
 getAllStoreData = ()->
 	petsData: PetStore.getPets()
@@ -28,13 +29,14 @@ PetBox = React.createClass
 
 	render: ->
 		pet = if @state.editIdx is -1 then false else @state.petsData[@state.editIdx]
-		<div className='pet-box'>
-			<h1>My pets</h1>
-			<PetList petsData={@state.petsData} />
-			<Button bsStyle='primary' onClick={@handleToggle}>New</Button>
-			<PetModalPayload isModalOpen={@state.isModalOpen} pet={pet} />
-		</div>
-
+		<DocumentTitle title="My pets | Pemily">
+			<div className='pet-box'>
+				<h1>My pets</h1>
+				<PetList petsData={@state.petsData} />
+				<Button bsStyle='primary' onClick={@handleToggle}>New</Button>
+				<PetModalPayload isModalOpen={@state.isModalOpen} pet={pet} />
+			</div>
+		</DocumentTitle>
 	_onChange: ->
 		@setState getAllStoreData()
 

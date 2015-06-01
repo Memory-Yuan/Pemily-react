@@ -6,11 +6,21 @@ Router = require 'react-router'
 Route = Router.Route
 DefaultRoute = Router.DefaultRoute
 RouteHandler = Router.RouteHandler
-# NotFoundRoute = Router.NotFoundRoute
+NotFoundRoute = Router.NotFoundRoute
 # Redirect = Router.Redirect
 # Link = Router.Link
+DocumentTitle = require 'react-document-title'
 
+Header = require './components/Header'
 PetBox = require './components/PetBox'
+NotFound = require './components/NotFound'
+
+# tmp page start ----------------------
+Index = React.createClass
+	render: ->
+		<div>
+			<h1>Pemily</h1>
+		</div>
 
 About = React.createClass
 	render: ->
@@ -34,12 +44,19 @@ MessageDetail = React.createClass
 	render: ->
 		<h4>Detail</h4>
 
+# tmp page end ------------------------
+
 App = React.createClass
 	render: ->
-		<div>
-			<h1>App</h1>
-			<RouteHandler/>
-		</div>
+		<DocumentTitle title='Pemily'>
+			<div>
+				<Header/>
+				<div className='container-fluid'>
+					<RouteHandler/>
+				</div>
+				
+			</div>
+		</DocumentTitle>
 
 routes = (
 	<Route handler={App}>
@@ -50,9 +67,11 @@ routes = (
 				<Route path=':id' handler={MessageDetail}/>
 			</Route>
 		</Route>
+		<DefaultRoute handler={Index}/>
+		<NotFoundRoute handler={NotFound} />
 	</Route>
 )
 
 Router.run(routes, (Handler) ->
-	React.render(<Handler/>, document.getElementById('content'))
+	React.render(<Handler/>, $('#app')[0])
 )
