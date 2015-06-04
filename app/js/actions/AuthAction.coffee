@@ -16,8 +16,16 @@ AuthAction =
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 	signout: ->
 		AppDispatcher.dispatch actionType: ActionTypes.CLEAN_API_TOKEN
-	register: ->
-		
+	register: (user) ->
+		$.ajax
+			url: ApiUrl + '/register'
+			dataType: 'json'
+			type: 'POST'
+			data: user: user
+		.done (result) =>
+			console.log 'success'
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 	ping: ->
 
 module.exports = AuthAction

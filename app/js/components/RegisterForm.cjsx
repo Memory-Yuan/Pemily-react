@@ -3,25 +3,30 @@ AuthAction = require '../actions/AuthAction'
 RB = require 'react-bootstrap'
 Input = RB.Input
 
-SigninForm = React.createClass
+RegisterForm = React.createClass
 	getInitialState: ->
 		email: ''
 		password: ''
+		password_confirmation: ''
 
 	handleChange: ->
 		@setState
 			email: @refs.email.getValue()
 			password: @refs.password.getValue()
+			password_confirmation: @refs.password_confirmation.getValue()
 
 	handleSubmit: (e) ->
 		e.preventDefault()
-		AuthAction.signin @state.email, @state.password
+		AuthAction.register
+			email: @state.email
+			password: @state.password
+			password_confirmation: @state.password_confirmation
 
 	render: ->
 		btnStyle=
 			height: '80px'
 			width: '80px'
-		<form className='signin-form form-horizontal' onSubmit={ @handleSubmit }>
+		<form className='register-form form-horizontal' onSubmit={ @handleSubmit }>
 			<div className='col-xs-10'>
 				<Input
 					type='email'
@@ -43,10 +48,20 @@ SigninForm = React.createClass
 					value={@state.password}
 					onChange={@handleChange}
 					required/>
+				<Input
+					type='password'
+					label='confirm'
+					placeholder='password confirm'
+					labelClassName='col-xs-2'
+					wrapperClassName='col-xs-10'
+					ref='password_confirmation'
+					value={@state.password_confirmation}
+					onChange={@handleChange}
+					required/>
 			</div>
 			<div className='col-xs-2'>
 				<Input type='submit' value='sign in' bsStyle='primary' style={btnStyle}/>
 			</div>
 		</form>
 
-module.exports = SigninForm
+module.exports = RegisterForm

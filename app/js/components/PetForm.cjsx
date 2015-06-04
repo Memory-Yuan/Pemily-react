@@ -23,7 +23,7 @@ PetForm = React.createClass
 		PetAction.submitPet @state.pet, @state.type
 
 	render: ->
-		<form className='petForm form-inline' onSubmit={ @handleSubmit }>
+		<form className='pet-form form-inline' onSubmit={ @handleSubmit }>
 			<Input
 				type='text'
 				label='Name'

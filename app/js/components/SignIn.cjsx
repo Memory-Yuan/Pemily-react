@@ -10,7 +10,7 @@ Signin = React.createClass
 			<h1 className='center'>Signin</h1>
 			<div style={wrapperStyle}>
 				<SigninForm/>
-				<a href='#/reigter'>註冊</a>
+				<a href='#/register'>註冊</a>
 			</div>
 		</div>
 
