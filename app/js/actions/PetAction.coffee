@@ -1,12 +1,14 @@
 AppDispatcher = require '../dispatcher/AppDispatcher'
-PetConstants = require '../constants/PetConstants'
-ActionTypes = PetConstants.ActionTypes
+AppConstants = require '../constants/AppConstants'
+ActionTypes = AppConstants.ActionTypes
+
+ApiUrl = AppConstants.APIUrl + 'pets'
 
 PetAction = 
 	loadPetsFromServer: ->
 		AppDispatcher.dispatch actionType: ActionTypes.LOADING_PETSDATA
 		$.ajax
-			url: PetConstants.APIUrl
+			url: ApiUrl
 			dataType: 'json'
 			# data: limit: 1
 		.done (result) =>
@@ -15,7 +17,7 @@ PetAction =
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	submitPet: (pet, type) ->
-		url = PetConstants.APIUrl
+		url = ApiUrl
 		url += '/' + pet.id if type is 'PUT' 
 		AppDispatcher.dispatch actionType: ActionTypes.CREACT_PET_PRE, content: pet
 		$.ajax
@@ -32,7 +34,7 @@ PetAction =
 	destroyPet: (pet) ->
 		AppDispatcher.dispatch actionType: ActionTypes.DESTROY_PET_PRE, content: pet
 		$.ajax
-			url: PetConstants.APIUrl + '/' + pet.id
+			url: ApiUrl + '/' + pet.id
 			dataType: 'json'
 			type: 'DELETE'
 			# data: pet: pet

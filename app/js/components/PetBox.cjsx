@@ -8,7 +8,7 @@ RB = require 'react-bootstrap'
 Button = RB.Button
 DocumentTitle = require 'react-document-title'
 
-getAllStoreData = ()->
+getAllStoreData = ->
 	petsData: PetStore.getPets()
 	isModalOpen: PetStore.getModalStatus()
 	editIdx: PetStore.getEditIdx()

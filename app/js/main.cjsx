@@ -12,6 +12,7 @@ NotFoundRoute = Router.NotFoundRoute
 DocumentTitle = require 'react-document-title'
 
 Header = require './components/Header'
+Signin = require './components/Signin'
 PetBox = require './components/PetBox'
 NotFound = require './components/NotFound'
 
@@ -60,6 +61,7 @@ App = React.createClass
 
 routes = (
 	<Route handler={App}>
+		<Route name='signin' handler={Signin}/>
 		<Route name='pets' handler={PetBox}/>
 		<Route name='about' handler={About}/>
 		<Route name='inbox' handler={Inbox}>

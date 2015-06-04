@@ -1,8 +1,8 @@
 AppDispatcher = require '../dispatcher/AppDispatcher'
-PetConstants = require '../constants/PetConstants'
+AppConstants = require '../constants/AppConstants'
 EventEmitter = require('events').EventEmitter
 assign = require 'object-assign'
-ActionTypes = PetConstants.ActionTypes
+ActionTypes = AppConstants.ActionTypes
 
 CHANGE_EVENT = 'change'
 
