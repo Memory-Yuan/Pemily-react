@@ -3,10 +3,7 @@ require 'bootstrap-js'
 require '../css/main.scss'
 React = require 'react'
 Router = require 'react-router'
-Route = Router.Route
-DefaultRoute = Router.DefaultRoute
-RouteHandler = Router.RouteHandler
-NotFoundRoute = Router.NotFoundRoute
+{ Route, DefaultRoute, RouteHandler, NotFoundRoute } = Router
 # Redirect = Router.Redirect
 # Link = Router.Link
 DocumentTitle = require 'react-document-title'
@@ -19,7 +16,12 @@ NotFound = require './components/NotFound'
 
 # tmp page start ----------------------
 Index = React.createClass
+	getInitialState: ->
+		test: true
+
 	render: ->
+		
+		return <div>test</div> if @state.test
 		<div>
 			<h1>Pemily</h1>
 		</div>

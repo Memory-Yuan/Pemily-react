@@ -1,7 +1,6 @@
 React = require 'react'
 RB = require 'react-bootstrap'
-Nav = RB.Nav
-NavItem = RB.NavItem
+{ Nav, NavItem } = RB
 
 HeaderUnSignin = React.createClass
 	render: ->

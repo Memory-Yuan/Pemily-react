@@ -1,17 +1,9 @@
 React = require 'react'
 AuthStore = require '../stores/AuthStore'
 RB = require 'react-bootstrap'
-Router = require 'react-router'
-Navbar = RB.Navbar
-Nav = RB.Nav
-NavItem = RB.NavItem
-MenuItem = RB.MenuItem
-DropdownButton = RB.DropdownButton
-CollapsibleNav = RB.CollapsibleNav
+{ Navbar, Nav, NavItem, MenuItem, DropdownButton, CollapsibleNav } = RB
 HeaderSignined = require './HeaderSignined'
 HeaderUnSignin = require './HeaderUnSignin'
-
-# Link = Router.Link
 
 getAllStoreData = ->
 	isSignin: AuthStore.isSignin()

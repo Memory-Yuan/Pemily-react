@@ -1,10 +1,7 @@
 React = require 'react'
-RB = require 'react-bootstrap'
 AuthAction = require '../actions/AuthAction'
-Nav = RB.Nav
-NavItem = RB.NavItem
-MenuItem = RB.MenuItem
-DropdownButton = RB.DropdownButton
+RB = require 'react-bootstrap'
+{ Nav, NavItem, MenuItem, DropdownButton } = RB
 
 HeaderSignined = React.createClass
 	

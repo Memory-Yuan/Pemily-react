@@ -16,7 +16,7 @@ config = {
     devtool: "eval"
     debug: true
     contentBase: path.resolve(__dirname, 'build')
-    # info: false
+    info: true
     hot: true
     # inline: true
     colors: true

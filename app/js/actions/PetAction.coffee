@@ -1,7 +1,6 @@
 AppDispatcher = require '../dispatcher/AppDispatcher'
 AppConstants = require '../constants/AppConstants'
 ActionTypes = AppConstants.ActionTypes
-
 ApiUrl = AppConstants.APIUrl + 'pets'
 
 PetAction = 

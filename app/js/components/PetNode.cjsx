@@ -1,8 +1,7 @@
 React = require 'react'
 PetAction = require '../actions/PetAction'
 RB = require 'react-bootstrap'
-Panel = RB.Panel
-Button = RB.Button
+{ Panel, Button } = RB
 
 Pet = React.createClass
 	handleDelete: ->

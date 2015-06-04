@@ -2,8 +2,7 @@ React = require 'react'
 PetAction = require '../actions/PetAction'
 PetForm = require './PetForm'
 RB = require 'react-bootstrap'
-Modal = RB.Modal
-Button = RB.Button
+{ Modal, Button } = RB
 
 PetModalPayload = React.createClass
 	handleToggle: ->
