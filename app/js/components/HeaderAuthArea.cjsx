@@ -1,14 +1,32 @@
 React = require 'react'
 AuthAction = require '../actions/AuthAction'
+AuthStore = require '../stores/AuthStore'
 RB = require 'react-bootstrap'
 { Nav, NavItem, MenuItem, DropdownButton } = RB
 
+getAllStoreData = ->
+	isAuthenticated: AuthStore.isAuthenticated()
+
 HeaderSignined = React.createClass
-	
+	getInitialState: -> getAllStoreData()
+
+	componentDidMount: ->
+		AuthStore.addChangeListener(@_onChange)
+
+	componentWillUnmount: ->
+		AuthStore.removeChangeListener(@_onChange)
+
 	handleSignout: ->
 		AuthAction.signout()
 
 	render: ->
+		unless @state.isAuthenticated
+			return (
+				<Nav navbar right>
+					<NavItem eventKey={1} href='#/signin'>Signin</NavItem>
+				</Nav>
+			)
+
 		<Nav navbar right>
 			<p className='navbar-text'>YES</p>
 			<NavItem eventKey={1} href='#/pets'>My pets</NavItem>
@@ -20,5 +38,8 @@ HeaderSignined = React.createClass
 				<MenuItem eventKey='4' onClick={ @handleSignout }>Signout</MenuItem>
 			</DropdownButton>
 		</Nav>
+
+	_onChange: ->
+		@setState getAllStoreData()
 
 module.exports = HeaderSignined

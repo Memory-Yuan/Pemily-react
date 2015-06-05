@@ -16,7 +16,6 @@ PetBox = require './components/PetBox'
 NotFound = require './components/NotFound'
 
 ###
-Header Signin area modify
 ValidationMixin
 
 ###

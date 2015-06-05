@@ -1,29 +1,10 @@
 React = require 'react'
-AuthStore = require '../stores/AuthStore'
 RB = require 'react-bootstrap'
 { Navbar, Nav, NavItem, MenuItem, DropdownButton, CollapsibleNav } = RB
-HeaderSignined = require './HeaderSignined'
-HeaderUnSignin = require './HeaderUnSignin'
-
-getAllStoreData = ->
-	isAuthenticated: AuthStore.isAuthenticated()
+HeaderAuthArea = require './HeaderAuthArea'
 
 Header = React.createClass
-	getInitialState: -> getAllStoreData()
-
-	componentDidMount: ->
-		AuthStore.addChangeListener(@_onChange)
-
-	componentWillUnmount: ->
-		AuthStore.removeChangeListener(@_onChange)
-
-	render: ->
-		authArea = 
-			if @state.isAuthenticated
-				<HeaderSignined/>
-			else 
-				<HeaderUnSignin/>
-				
+	render: ->				
 		<Navbar brand={<a href='/'>PEMILY</a>} fluid staticTop toggleNavKey={0}>
 			<CollapsibleNav eventKey={0}>
 				<Nav navbar>
@@ -37,9 +18,8 @@ Header = React.createClass
 						<MenuItem eventKey='4'>Separated link</MenuItem>
 					</DropdownButton>
 				</Nav>
-				{authArea}
+				<HeaderAuthArea/>
 			</CollapsibleNav>
 		</Navbar>
-	_onChange: ->
-		@setState getAllStoreData()
+
 module.exports = Header
