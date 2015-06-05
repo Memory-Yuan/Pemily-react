@@ -20,7 +20,7 @@ ValidationMixin
 
 ###
 
-
+AuthAction = require './actions/AuthAction'
 RB = require 'react-bootstrap'
 Button = RB.Button
 # tmp page start ----------------------
@@ -42,6 +42,7 @@ About = React.createClass
 	# 	nextPath: @getQuery().nextPath
 
 	testTrans: ->
+		AuthAction.ping()
 		# console.log @state.nextPath if @state.nextPath?
 		# @replaceWith(@state.nextPath) if @state.nextPath?
 		# @replaceWith('/')

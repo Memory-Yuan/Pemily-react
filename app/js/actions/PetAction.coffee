@@ -9,6 +9,8 @@ PetAction =
 		$.ajax
 			url: ApiUrl
 			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", localStorage.token)
 			# data: limit: 1
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.LOADED_PETSDATA, content: result
@@ -24,6 +26,8 @@ PetAction =
 			dataType: 'json'
 			type: type
 			data: pet: pet
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", localStorage.token)
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.LOADED_PETSDATA, content: result
 			AppDispatcher.dispatch actionType: ActionTypes.TRIGGER_MODAL
@@ -36,7 +40,8 @@ PetAction =
 			url: ApiUrl + '/' + pet.id
 			dataType: 'json'
 			type: 'DELETE'
-			# data: pet: pet
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", localStorage.token)
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.LOADED_PETSDATA, content: result
 		.fail (xhr, status, err) =>

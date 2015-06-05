@@ -27,5 +27,14 @@ AuthAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 	ping: ->
+		$.ajax
+			url: ApiUrl + '/ping'
+			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", localStorage.token)
+		.done (result) =>
+			console.log result
+		.fail (xhr, status, err) =>
+			# AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 module.exports = AuthAction
