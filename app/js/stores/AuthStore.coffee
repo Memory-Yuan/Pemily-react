@@ -7,8 +7,8 @@ ActionTypes = AppConstants.ActionTypes
 CHANGE_EVENT = 'change'
 
 AuthStore = assign({}, EventEmitter.prototype, {
-	isSignin: ->
-		if localStorage.stext then true else false
+	isAuthenticated: ->
+		if localStorage.token then true else false		
 
 	emitChange: ->
 		@emit(CHANGE_EVENT)
@@ -23,10 +23,10 @@ AuthStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register (action) ->
 	switch action.actionType
 		when ActionTypes.STORE_API_TOKEN
-			localStorage.stext = action.token
+			localStorage.token = action.token
 			console.log action.token
 		when ActionTypes.CLEAN_API_TOKEN
-			localStorage.clear("stext");
+			delete localStorage.token;
 		when ActionTypes.FAILED
 			console.log action.err
 

@@ -6,7 +6,7 @@ HeaderSignined = require './HeaderSignined'
 HeaderUnSignin = require './HeaderUnSignin'
 
 getAllStoreData = ->
-	isSignin: AuthStore.isSignin()
+	isAuthenticated: AuthStore.isAuthenticated()
 
 Header = React.createClass
 	getInitialState: -> getAllStoreData()
@@ -19,7 +19,7 @@ Header = React.createClass
 
 	render: ->
 		authArea = 
-			if @state.isSignin
+			if @state.isAuthenticated
 				<HeaderSignined/>
 			else 
 				<HeaderUnSignin/>

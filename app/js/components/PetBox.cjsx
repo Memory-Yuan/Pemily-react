@@ -7,6 +7,7 @@ PetModalPayload = require './PetModalPayload'
 RB = require 'react-bootstrap'
 Button = RB.Button
 DocumentTitle = require 'react-document-title'
+Mixins = require '../mixins/Mixins'
 
 getAllStoreData = ->
 	petsData: PetStore.getPets()
@@ -14,6 +15,8 @@ getAllStoreData = ->
 	editIdx: PetStore.getEditIdx()
 
 PetBox = React.createClass
+	mixins: [Mixins.Authenticated]
+
 	getInitialState: -> getAllStoreData()
 
 	componentDidMount: ->

@@ -7,6 +7,7 @@ Router = require 'react-router'
 # Redirect = Router.Redirect
 # Link = Router.Link
 DocumentTitle = require 'react-document-title'
+Mixins = require './mixins/Mixins'
 
 Header = require './components/Header'
 Signin = require './components/Signin'
@@ -14,10 +15,20 @@ Register = require './components/Register'
 PetBox = require './components/PetBox'
 NotFound = require './components/NotFound'
 
+###
+Header Signin area modify
+ValidationMixin
+
+###
+
+
+RB = require 'react-bootstrap'
+Button = RB.Button
 # tmp page start ----------------------
 Index = React.createClass
 	getInitialState: ->
 		test: true
+
 
 	render: ->
 		
@@ -27,10 +38,24 @@ Index = React.createClass
 		</div>
 
 About = React.createClass
+	# mixins: [Router.State, Router.Navigation]
+	# getInitialState: ->
+	# 	nextPath: @getQuery().nextPath
+
+	testTrans: ->
+		# console.log @state.nextPath if @state.nextPath?
+		# @replaceWith(@state.nextPath) if @state.nextPath?
+		# @replaceWith('/')
+
 	render: ->
-		<h2>About</h2>
+		<div>
+			<h2>About</h2>
+			<Button className='btn btn-default' onClick={@testTrans}>trans</Button>
+		</div>
+		
 
 Inbox = React.createClass
+	mixins: [Mixins.Authenticated]
 	render: ->
 		<div>
 			<h2>Inbox</h2>
@@ -63,7 +88,7 @@ App = React.createClass
 		</DocumentTitle>
 
 routes = (
-	<Route handler={App}>
+	<Route name='app' path='/' handler={App}>
 		<Route name='signin' handler={Signin}/>
 		<Route name='register' handler={Register}/>
 		<Route name='pets' handler={PetBox}/>
