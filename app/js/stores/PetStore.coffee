@@ -39,19 +39,23 @@ AppDispatcher.register (action) ->
 		when ActionTypes.LOADED_PETSDATA
 			console.log 'loaded'
 			_petsData = action.content
+			PetStore.emitChange()
 		when ActionTypes.FAILED
 			console.log action.err
 		when ActionTypes.CREACT_PET_PRE
 			_petsData = _petsData.concat [action.content]
+			PetStore.emitChange()
 		when ActionTypes.DESTROY_PET_PRE
 			_petsData = _petsData.filter (ele) -> ele.id != action.content.id
+			PetStore.emitChange()
 		when ActionTypes.TRIGGER_MODAL
 			_isModalOpen = !_isModalOpen
+			PetStore.emitChange()
 		when ActionTypes.NEW_PET
 			_editIdx = -1
+			PetStore.emitChange()
 		when ActionTypes.EDIT_PET
 			_editIdx = action.idx
-
-	PetStore.emitChange()
+			PetStore.emitChange()
 
 module.exports = PetStore

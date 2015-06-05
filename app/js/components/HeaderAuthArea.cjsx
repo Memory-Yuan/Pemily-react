@@ -6,12 +6,14 @@ RB = require 'react-bootstrap'
 
 getAllStoreData = ->
 	isAuthenticated: AuthStore.isAuthenticated()
+	userData: AuthStore.getUserData()
 
 HeaderSignined = React.createClass
 	getInitialState: -> getAllStoreData()
 
 	componentDidMount: ->
 		AuthStore.addChangeListener(@_onChange)
+		AuthAction.getUser() if @state.isAuthenticated
 
 	componentWillUnmount: ->
 		AuthStore.removeChangeListener(@_onChange)
@@ -26,9 +28,9 @@ HeaderSignined = React.createClass
 					<NavItem eventKey={1} href='#/signin'>Signin</NavItem>
 				</Nav>
 			)
-
+		email = if @state.userData then @state.userData.email else 'no data'
 		<Nav navbar right>
-			<p className='navbar-text'>YES</p>
+			<p className='navbar-text'>{email}</p>
 			<NavItem eventKey={1} href='#/pets'>My pets</NavItem>
 			<DropdownButton eventKey={2} title={<i className='glyphicon glyphicon-cog'></i>}>
 				<MenuItem eventKey='1'>Action</MenuItem>
