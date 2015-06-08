@@ -5,7 +5,7 @@ HeaderAuthArea = require './HeaderAuthArea'
 
 Header = React.createClass
 	render: ->				
-		<Navbar brand={<a href='/'>PEMILY</a>} fluid staticTop toggleNavKey={0}>
+		<Navbar brand={<a href='#/'>PEMILY</a>} fluid staticTop toggleNavKey={0}>
 			<CollapsibleNav eventKey={0}>
 				<Nav navbar>
 					<NavItem eventKey={1} href='#'>Link</NavItem>

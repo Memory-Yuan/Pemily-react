@@ -2,6 +2,7 @@ AppDispatcher = require '../dispatcher/AppDispatcher'
 AppConstants = require '../constants/AppConstants'
 ActionTypes = AppConstants.ActionTypes
 ApiUrl = AppConstants.APIUrl + 'auth'
+AuthStore = require '../stores/AuthStore'
 
 AuthAction = 
 	signin: (email, password) ->
@@ -17,7 +18,7 @@ AuthAction =
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	signout: ->
-		AppDispatcher.dispatch actionType: ActionTypes.CLEAN_API_TOKEN
+		AppDispatcher.dispatch actionType: ActionTypes.CLEAN_AUTH
 		AppDispatcher.dispatch actionType: ActionTypes.CLEAN_USERDATA
 
 	ping: ->
@@ -25,7 +26,7 @@ AuthAction =
 			url: ApiUrl + '/ping'
 			dataType: 'json'
 			beforeSend: (xhr) ->
-				xhr.setRequestHeader("Authorization", localStorage.token)
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
 			console.log result
 		.fail (xhr, status, err) =>
@@ -47,7 +48,7 @@ AuthAction =
 			url: ApiUrl + '/user_data'
 			dataType: 'json'
 			beforeSend: (xhr) ->
-				xhr.setRequestHeader("Authorization", localStorage.token)
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 			# data: limit: 1
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.LOADED_USERDATA, content: result

@@ -12,8 +12,13 @@ Pet = React.createClass
 		PetAction.editPet(@props.idx)
 		PetAction.triggerModal()
 
+	handleAsPet: ->
+		PetAction.asPet(@props.pet.id)
+		PetAction.getOnePet(@props.pet.id)
+
 	render: ->
 		<Panel header={@props.pet.name}>
+			<Button bsStyle='primary' onClick={@handleAsPet}>選擇</Button>
 			<Button bsStyle='info' onClick={@handleToggle}>Edit</Button>
 			<Button bsStyle='danger' onClick={@handleDelete}>刪除</Button>
 		</Panel>

@@ -10,8 +10,10 @@ module.exports =
 		EDIT_PET: null,
 		TRIGGER_MODAL: null,
 		STORE_API_TOKEN: null,
-		CLEAN_API_TOKEN: null,
+		CLEAN_AUTH: null,
 		LOADED_USERDATA: null,
-		CLEAN_USERDATA: null
+		CLEAN_USERDATA: null,
+		AS_PET: null,
+		LOADED_ONEPETDATA: null
 
 	APIUrl: 'http://localhost:3000/api/v1/'

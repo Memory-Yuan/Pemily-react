@@ -17,10 +17,8 @@ NotFound = require './components/NotFound'
 
 ###
 ValidationMixin
-
 ###
 
-AuthAction = require './actions/AuthAction'
 RB = require 'react-bootstrap'
 Button = RB.Button
 # tmp page start ----------------------
@@ -41,8 +39,8 @@ About = React.createClass
 	# getInitialState: ->
 	# 	nextPath: @getQuery().nextPath
 
-	testTrans: ->
-		AuthAction.ping()
+	test: ->
+		# AuthAction.ping()
 		# console.log @state.nextPath if @state.nextPath?
 		# @replaceWith(@state.nextPath) if @state.nextPath?
 		# @replaceWith('/')
@@ -50,7 +48,7 @@ About = React.createClass
 	render: ->
 		<div>
 			<h2>About</h2>
-			<Button className='btn btn-default' onClick={@testTrans}>trans</Button>
+			<Button className='btn btn-default' onClick={@test}>test</Button>
 		</div>
 		
 

@@ -3,6 +3,7 @@ AppConstants = require '../constants/AppConstants'
 EventEmitter = require('events').EventEmitter
 assign = require 'object-assign'
 ActionTypes = AppConstants.ActionTypes
+LcStorageHelp = require '../help/LcStorageHelp'
 
 CHANGE_EVENT = 'change'
 
@@ -11,6 +12,8 @@ _petsData = []
 _isModalOpen = false
 
 _editIdx = -1;
+
+_thisPetData = null
 
 PetStore = assign({}, EventEmitter.prototype, {
 	getPets: ->
@@ -21,6 +24,13 @@ PetStore = assign({}, EventEmitter.prototype, {
 
 	getEditIdx:  ->
 		_editIdx
+
+	getThisPetId: ->
+		auth = LcStorageHelp.GetDataBy 'auth'
+		if auth then auth.petid else null
+
+	getThisPetData: ->
+		_thisPetData
 
 	emitChange: ->
 		@emit(CHANGE_EVENT)
@@ -56,6 +66,14 @@ AppDispatcher.register (action) ->
 			PetStore.emitChange()
 		when ActionTypes.EDIT_PET
 			_editIdx = action.idx
+			PetStore.emitChange()
+		when ActionTypes.AS_PET
+			auth = LcStorageHelp.GetDataBy 'auth'
+			auth.petid = action.id
+			LcStorageHelp.StoreData('auth', auth)
+			PetStore.emitChange()
+		when ActionTypes.LOADED_ONEPETDATA
+			_thisPetData = action.content
 			PetStore.emitChange()
 
 module.exports = PetStore

@@ -1,22 +1,29 @@
 React = require 'react'
 AuthAction = require '../actions/AuthAction'
 AuthStore = require '../stores/AuthStore'
+PetAction = require '../actions/PetAction'
+PetStore = require '../stores/PetStore'
 RB = require 'react-bootstrap'
 { Nav, NavItem, MenuItem, DropdownButton } = RB
 
 getAllStoreData = ->
 	isAuthenticated: AuthStore.isAuthenticated()
 	userData: AuthStore.getUserData()
+	thisPetId: PetStore.getThisPetId()
+	thisPetData: PetStore.getThisPetData()
 
 HeaderSignined = React.createClass
 	getInitialState: -> getAllStoreData()
 
 	componentDidMount: ->
 		AuthStore.addChangeListener(@_onChange)
+		PetStore.addChangeListener(@_onChange)
 		AuthAction.getUser() if @state.isAuthenticated
+		PetAction.getOnePet(@state.thisPetId) if @state.thisPetId
 
 	componentWillUnmount: ->
 		AuthStore.removeChangeListener(@_onChange)
+		PetStore.removeChangeListener(@_onChange)
 
 	handleSignout: ->
 		AuthAction.signout()
@@ -29,8 +36,10 @@ HeaderSignined = React.createClass
 				</Nav>
 			)
 		email = if @state.userData then @state.userData.email else 'no data'
+		petName = if @state.thisPetData then @state.thisPetData.name else 'no data'
 		<Nav navbar right>
 			<p className='navbar-text'>{email}</p>
+			<p className='navbar-text'>{petName}</p>
 			<NavItem eventKey={1} href='#/pets'>My pets</NavItem>
 			<DropdownButton eventKey={2} title={<i className='glyphicon glyphicon-cog'></i>}>
 				<MenuItem eventKey='1'>Action</MenuItem>
