@@ -1,7 +1,7 @@
 React = require 'react'
 AuthAction = require '../actions/AuthAction'
 RB = require 'react-bootstrap'
-Input = RB.Input
+{Input, ButtonInput} = RB
 
 SigninForm = React.createClass
 	getInitialState: ->
@@ -45,7 +45,7 @@ SigninForm = React.createClass
 					required/>
 			</div>
 			<div className='col-xs-2'>
-				<Input type='submit' value='sign in' bsStyle='primary' style={btnStyle}/>
+				<ButtonInput type='submit' value='sign in' bsStyle='primary' style={btnStyle}/>
 			</div>
 		</form>
 

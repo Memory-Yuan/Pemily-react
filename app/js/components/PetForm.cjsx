@@ -1,7 +1,7 @@
 React = require 'react'
 PetAction = require '../actions/PetAction'
 RB = require 'react-bootstrap'
-Input = RB.Input
+{Input, ButtonInput} = RB
 
 PetForm = React.createClass
 	getInitialState: ->
@@ -31,7 +31,7 @@ PetForm = React.createClass
 				ref='petName'
 				value={@state.pet.name}
 				onChange={@handleChange} />
-			<Input type='submit' value='Post' bsStyle='primary' className='pull-right' wrapperClassName='col-xs-12'/>
+			<ButtonInput type='submit' value='Post' bsStyle='primary' className='pull-right' wrapperClassName='col-xs-12'/>
 		</form>
 
 module.exports = PetForm
