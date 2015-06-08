@@ -44,35 +44,35 @@ PetStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register (action) ->
 	switch action.actionType
-		when ActionTypes.LOADING_PETSDATA
+		when ActionTypes.PET_LOADING_PETS_DATA
 			console.log 'loading'
-		when ActionTypes.LOADED_PETSDATA
+		when ActionTypes.PET_LOADED_PETS_DATA
 			console.log 'loaded'
 			_petsData = action.content
 			PetStore.emitChange()
 		when ActionTypes.FAILED
 			console.log action.err
-		when ActionTypes.CREACT_PET_PRE
+		when ActionTypes.PET_CREATE_PREVIOUSLY
 			_petsData = _petsData.concat [action.content]
 			PetStore.emitChange()
 		when ActionTypes.DESTROY_PET_PRE
 			_petsData = _petsData.filter (ele) -> ele.id != action.content.id
 			PetStore.emitChange()
-		when ActionTypes.TRIGGER_MODAL
+		when ActionTypes.MODAL_TRIGGER
 			_isModalOpen = !_isModalOpen
 			PetStore.emitChange()
-		when ActionTypes.NEW_PET
+		when ActionTypes.PET_NEW
 			_editIdx = -1
 			PetStore.emitChange()
-		when ActionTypes.EDIT_PET
+		when ActionTypes.PET_EDIT
 			_editIdx = action.idx
 			PetStore.emitChange()
-		when ActionTypes.AS_PET
+		when ActionTypes.PET_AS_PET
 			auth = LcStorageHelp.GetDataBy 'auth'
 			auth.petid = action.id
 			LcStorageHelp.StoreData('auth', auth)
 			PetStore.emitChange()
-		when ActionTypes.LOADED_ONEPETDATA
+		when ActionTypes.PET_LOADED_ONEPET_DATA
 			_thisPetData = action.content
 			PetStore.emitChange()
 

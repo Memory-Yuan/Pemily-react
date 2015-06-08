@@ -32,16 +32,16 @@ AuthStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register (action) ->
 	switch action.actionType
-		when ActionTypes.STORE_API_TOKEN
+		when ActionTypes.AUTH_STORE_API_TOKEN
 			LcStorageHelp.StoreData('auth', {token: action.token})
 			AuthStore.emitChange()
-		when ActionTypes.CLEAN_AUTH
+		when ActionTypes.AUTH_CLEAN
 			delete localStorage.auth;
 			AuthStore.emitChange()
-		when ActionTypes.LOADED_USERDATA
+		when ActionTypes.USER_LOADED_USER_DATA
 			_userData = action.content
 			AuthStore.emitChange()
-		when ActionTypes.CLEAN_USERDATA
+		when ActionTypes.USER_CLEAN_USER_DATA
 			_userData = null
 			AuthStore.emitChange()
 

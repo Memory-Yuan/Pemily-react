@@ -12,14 +12,14 @@ AuthAction =
 			type: 'POST'
 			data: email: email, password: password
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.STORE_API_TOKEN, token: result.token
+			AppDispatcher.dispatch actionType: ActionTypes.AUTH_STORE_API_TOKEN, token: result.token
 			@getUser()
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	signout: ->
-		AppDispatcher.dispatch actionType: ActionTypes.CLEAN_AUTH
-		AppDispatcher.dispatch actionType: ActionTypes.CLEAN_USERDATA
+		AppDispatcher.dispatch actionType: ActionTypes.AUTH_CLEAN
+		AppDispatcher.dispatch actionType: ActionTypes.USER_CLEAN_USER_DATA
 
 	ping: ->
 		$.ajax
@@ -51,7 +51,7 @@ AuthAction =
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 			# data: limit: 1
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.LOADED_USERDATA, content: result
+			AppDispatcher.dispatch actionType: ActionTypes.USER_LOADED_USER_DATA, content: result
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
