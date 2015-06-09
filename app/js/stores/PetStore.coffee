@@ -48,19 +48,19 @@ AppDispatcher.register (action) ->
 			console.log 'loading'
 		when ActionTypes.PET_LOADED_PETS_DATA
 			console.log 'loaded'
-			_petsData = action.content
+			_petsData = action.pets
 			PetStore.emitChange()
 		when ActionTypes.FAILED
 			console.log action.err
 		when ActionTypes.PET_CREATE_PREVIOUSLY
-			_petsData = _petsData.concat [action.content]
+			_petsData = _petsData.concat [action.pet]
 			PetStore.emitChange()
 		when ActionTypes.PET_UPDATE_PREVIOUSLY
-			_petsData = _petsData.filter (ele) -> ele.id != action.content.pet.id
-			_petsData = _petsData.concat [action.content]
+			_petsData = _petsData.filter (ele) -> ele.id != action.pet.id
+			_petsData = _petsData.concat [action.pet]
 			PetStore.emitChange()
 		when ActionTypes.PET_DESTROY_PREVIOUSLY
-			_petsData = _petsData.filter (ele) -> ele.id != action.content.pet.id
+			_petsData = _petsData.filter (ele) -> ele.id != action.pet.id
 			PetStore.emitChange()
 		when ActionTypes.MODAL_TRIGGER
 			_isModalOpen = !_isModalOpen
@@ -77,7 +77,7 @@ AppDispatcher.register (action) ->
 			LcStorageHelp.StoreData('auth', auth)
 			PetStore.emitChange()
 		when ActionTypes.PET_LOADED_ONEPET_DATA
-			_thisPetData = action.content
+			_thisPetData = action.pet
 			PetStore.emitChange()
 
 module.exports = PetStore

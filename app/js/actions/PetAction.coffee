@@ -14,12 +14,12 @@ PetAction =
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 			# data: limit: 1
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_PETS_DATA, content: result
+			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_PETS_DATA, pets: result
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	createPet: (pet) ->
-		AppDispatcher.dispatch actionType: ActionTypes.PET_CREATE_PREVIOUSLY, content: pet
+		AppDispatcher.dispatch actionType: ActionTypes.PET_CREATE_PREVIOUSLY, pet: pet
 		$.ajax
 			url: ApiUrl
 			dataType: 'json'
@@ -28,13 +28,13 @@ PetAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			@loadPetsFromServer
+			@loadPetsFromServer()
 			AppDispatcher.dispatch actionType: ActionTypes.MODAL_TRIGGER
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	updatePet: (pet) ->
-		AppDispatcher.dispatch actionType: ActionTypes.PET_UPDATE_PREVIOUSLY, content: pet
+		AppDispatcher.dispatch actionType: ActionTypes.PET_UPDATE_PREVIOUSLY, pet: pet
 		$.ajax
 			url: ApiUrl + '/' + pet.id
 			dataType: 'json'
@@ -43,13 +43,13 @@ PetAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			@loadPetsFromServer
+			@loadPetsFromServer()
 			AppDispatcher.dispatch actionType: ActionTypes.MODAL_TRIGGER
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	destroyPet: (pet) ->
-		AppDispatcher.dispatch actionType: ActionTypes.PET_DESTROY_PREVIOUSLY, content: pet
+		AppDispatcher.dispatch actionType: ActionTypes.PET_DESTROY_PREVIOUSLY, pet: pet
 		$.ajax
 			url: ApiUrl + '/' + pet.id
 			dataType: 'json'
@@ -57,7 +57,7 @@ PetAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			@loadPetsFromServer
+			@loadPetsFromServer()
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
@@ -80,7 +80,7 @@ PetAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_ONEPET_DATA, content: result
+			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_ONEPET_DATA, pet: result
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
