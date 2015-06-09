@@ -55,8 +55,12 @@ AppDispatcher.register (action) ->
 		when ActionTypes.PET_CREATE_PREVIOUSLY
 			_petsData = _petsData.concat [action.content]
 			PetStore.emitChange()
-		when ActionTypes.DESTROY_PET_PRE
-			_petsData = _petsData.filter (ele) -> ele.id != action.content.id
+		when ActionTypes.PET_UPDATE_PREVIOUSLY
+			_petsData = _petsData.filter (ele) -> ele.id != action.content.pet.id
+			_petsData = _petsData.concat [action.content]
+			PetStore.emitChange()
+		when ActionTypes.PET_DESTROY_PREVIOUSLY
+			_petsData = _petsData.filter (ele) -> ele.id != action.content.pet.id
 			PetStore.emitChange()
 		when ActionTypes.MODAL_TRIGGER
 			_isModalOpen = !_isModalOpen

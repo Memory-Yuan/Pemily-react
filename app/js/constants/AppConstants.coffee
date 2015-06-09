@@ -7,6 +7,8 @@ module.exports =
 		PET_NEW:null,
 		PET_CREATE_PREVIOUSLY: null,
 		PET_EDIT: null,
+		PET_UPDATE_PREVIOUSLY: null,
+		PET_DESTROY_PREVIOUSLY: null,
 		PET_AS_PET: null,
 		PET_LOADED_ONEPET_DATA: null,
 		FAILED: null,

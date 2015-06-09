@@ -18,25 +18,38 @@ PetAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
-	submitPet: (pet, type) ->
-		url = ApiUrl
-		url += '/' + pet.id if type is 'PUT' 
+	createPet: (pet) ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_CREATE_PREVIOUSLY, content: pet
 		$.ajax
-			url: url
+			url: ApiUrl
 			dataType: 'json'
-			type: type
+			type: 'POST'
 			data: pet: pet
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_PETS_DATA, content: result
+			@loadPetsFromServer
+			AppDispatcher.dispatch actionType: ActionTypes.MODAL_TRIGGER
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
+	updatePet: (pet) ->
+		AppDispatcher.dispatch actionType: ActionTypes.PET_UPDATE_PREVIOUSLY, content: pet
+		$.ajax
+			url: ApiUrl + '/' + pet.id
+			dataType: 'json'
+			type: 'PUT'
+			data: pet: pet
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			@loadPetsFromServer
 			AppDispatcher.dispatch actionType: ActionTypes.MODAL_TRIGGER
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	destroyPet: (pet) ->
-		AppDispatcher.dispatch actionType: ActionTypes.DESTROY_PET_PRE, content: pet
+		AppDispatcher.dispatch actionType: ActionTypes.PET_DESTROY_PREVIOUSLY, content: pet
 		$.ajax
 			url: ApiUrl + '/' + pet.id
 			dataType: 'json'
@@ -44,7 +57,7 @@ PetAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_PETS_DATA, content: result
+			@loadPetsFromServer
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 

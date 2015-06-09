@@ -20,7 +20,11 @@ PetForm = React.createClass
 	handleSubmit: (e) ->
 		e.preventDefault()
 		return unless @state.pet.name
-		PetAction.submitPet @state.pet, @state.type
+
+		if @state.type is 'POST'
+			PetAction.createPet @state.pet
+		else
+			PetAction.updatePet @state.pet
 
 	render: ->
 		<form className='pet-form form-inline' onSubmit={ @handleSubmit }>
@@ -30,7 +34,8 @@ PetForm = React.createClass
 				placeholder='pet name'
 				ref='petName'
 				value={@state.pet.name}
-				onChange={@handleChange} />
+				onChange={@handleChange}
+				required />
 			<ButtonInput type='submit' value='Post' bsStyle='primary' className='pull-right' wrapperClassName='col-xs-12'/>
 		</form>
 
