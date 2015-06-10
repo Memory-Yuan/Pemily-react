@@ -8,7 +8,7 @@ Pet = React.createClass
 		return unless confirm '真的要刪除嗎？'
 		PetAction.destroyPet @props.pet
 
-	handleToggle: ->
+	handleEdit: ->
 		PetAction.editPet(@props.idx)
 		PetAction.triggerModal()
 
@@ -19,7 +19,7 @@ Pet = React.createClass
 	render: ->
 		<Panel header={@props.pet.name}>
 			<Button bsStyle='primary' onClick={@handleAsPet}>選擇</Button>
-			<Button bsStyle='info' onClick={@handleToggle}>Edit</Button>
+			<Button bsStyle='info' onClick={@handleEdit}>編輯</Button>
 			<Button bsStyle='danger' onClick={@handleDelete}>刪除</Button>
 		</Panel>
 

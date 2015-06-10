@@ -20,6 +20,7 @@ PetForm = React.createClass
 			PetAction.updatePet @state.pet
 		else
 			PetAction.createPet @state.pet
+		PetAction.triggerModal()
 
 	render: ->
 		<form className='pet-form form-inline' onSubmit={ @handleSubmit }>

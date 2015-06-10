@@ -29,7 +29,6 @@ PetAction =
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
 			@loadPetsFromServer()
-			AppDispatcher.dispatch actionType: ActionTypes.MODAL_TRIGGER
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
@@ -44,7 +43,6 @@ PetAction =
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
 			@loadPetsFromServer()
-			AppDispatcher.dispatch actionType: ActionTypes.MODAL_TRIGGER
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
@@ -62,7 +60,7 @@ PetAction =
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	triggerModal: ->
-		AppDispatcher.dispatch actionType: ActionTypes.MODAL_TRIGGER
+		AppDispatcher.dispatch actionType: ActionTypes.PET_MODAL_TRIGGER
 
 	newPet: ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_NEW

@@ -62,7 +62,7 @@ AppDispatcher.register (action) ->
 		when ActionTypes.PET_DESTROY_PREVIOUSLY
 			_petsData = _petsData.filter (ele) -> ele.id != action.pet.id
 			PetStore.emitChange()
-		when ActionTypes.MODAL_TRIGGER
+		when ActionTypes.PET_MODAL_TRIGGER
 			_isModalOpen = !_isModalOpen
 			PetStore.emitChange()
 		when ActionTypes.PET_NEW
