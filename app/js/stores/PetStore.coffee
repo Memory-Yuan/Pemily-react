@@ -53,11 +53,11 @@ AppDispatcher.register (action) ->
 		when ActionTypes.FAILED
 			console.log action.err
 		when ActionTypes.PET_CREATE_PREVIOUSLY
-			_petsData = _petsData.concat [action.pet]
+			_petsData.push action.pet
 			PetStore.emitChange()
 		when ActionTypes.PET_UPDATE_PREVIOUSLY
-			_petsData = _petsData.filter (ele) -> ele.id != action.pet.id
-			_petsData = _petsData.concat [action.pet]
+			_petsData = _petsData.map (pet) ->
+				if pet.id is action.pet.id then action.pet else pet
 			PetStore.emitChange()
 		when ActionTypes.PET_DESTROY_PREVIOUSLY
 			_petsData = _petsData.filter (ele) -> ele.id != action.pet.id
