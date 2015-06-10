@@ -25,7 +25,8 @@ HeaderSignined = React.createClass
 		AuthStore.removeChangeListener(@_onChange)
 		PetStore.removeChangeListener(@_onChange)
 
-	handleSignout: ->
+	handleSignout: (e) ->
+		e.preventDefault()
 		AuthAction.signout()
 
 	render: ->
