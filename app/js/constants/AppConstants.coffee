@@ -17,5 +17,12 @@ module.exports =
 		AUTH_CLEAN: null,
 		USER_LOADED_USER_DATA: null,
 		USER_CLEAN_USER_DATA: null,
+		POST_LOADED_POSTS_DATA: null,
+		POST_CREATE: null,
+		POST_CREATE_PREVIOUSLY: null,
+		POST_UPDATE_PREVIOUSLY: null,
+		POST_DESTROY_PREVIOUSLY: null,
+		POST_MODAL_TRIGGER: null,
+		POST_EDIT: null
 
 	APIUrl: 'http://localhost:3000/api/v1/'

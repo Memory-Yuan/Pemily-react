@@ -14,6 +14,7 @@ Signin = require './components/Signin'
 Register = require './components/Register'
 PetBox = require './components/PetBox'
 NotFound = require './components/NotFound'
+PostRiver = require './components/PostRiver'
 
 ###
 ValidationMixin
@@ -22,35 +23,6 @@ ValidationMixin
 RB = require 'react-bootstrap'
 Button = RB.Button
 # tmp page start ----------------------
-Index = React.createClass
-	getInitialState: ->
-		test: true
-
-
-	render: ->
-		
-		return <div>test</div> if @state.test
-		<div>
-			<h1>Pemily</h1>
-		</div>
-
-About = React.createClass
-	# mixins: [Router.State, Router.Navigation]
-	# getInitialState: ->
-	# 	nextPath: @getQuery().nextPath
-
-	test: ->
-		# AuthAction.ping()
-		# console.log @state.nextPath if @state.nextPath?
-		# @replaceWith(@state.nextPath) if @state.nextPath?
-		# @replaceWith('/')
-
-	render: ->
-		<div>
-			<h2>About</h2>
-			<Button className='btn btn-default' onClick={@test}>test</Button>
-		</div>
-		
 
 Inbox = React.createClass
 	mixins: [Mixins.Authenticated]
@@ -90,13 +62,12 @@ routes = (
 		<Route name='signin' handler={Signin}/>
 		<Route name='register' handler={Register}/>
 		<Route name='pets' handler={PetBox}/>
-		<Route name='about' handler={About}/>
 		<Route name='inbox' handler={Inbox}>
 			<Route name='messages' handler={Message}>
 				<Route path=':id' handler={MessageDetail}/>
 			</Route>
 		</Route>
-		<DefaultRoute handler={Index}/>
+		<DefaultRoute handler={PostRiver}/>
 		<NotFoundRoute handler={NotFound} />
 	</Route>
 )

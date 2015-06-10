@@ -32,6 +32,9 @@ PetStore = assign({}, EventEmitter.prototype, {
 	getThisPetData: ->
 		_thisPetData
 
+	isCorrectPet: (id) ->
+		id? and @getThisPetId() == id
+
 	emitChange: ->
 		@emit(CHANGE_EVENT)
 
