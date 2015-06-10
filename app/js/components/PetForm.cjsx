@@ -5,12 +5,7 @@ RB = require 'react-bootstrap'
 
 PetForm = React.createClass
 	getInitialState: ->
-		if @props.pet
-			pet: @props.pet
-			type: 'PUT'
-		else
-			pet: {name: ''}
-			type: 'POST'
+		if @props.pet then pet: @props.pet else pet: {name: ''}
 
 	handleChange: ->
 		pet = @state.pet
@@ -21,10 +16,10 @@ PetForm = React.createClass
 		e.preventDefault()
 		return unless @state.pet.name
 
-		if @state.type is 'POST'
-			PetAction.createPet @state.pet
-		else
+		if @props.pet 
 			PetAction.updatePet @state.pet
+		else
+			PetAction.createPet @state.pet
 
 	render: ->
 		<form className='pet-form form-inline' onSubmit={ @handleSubmit }>
