@@ -3,11 +3,10 @@ AppConstants = require '../constants/AppConstants'
 EventEmitter = require('events').EventEmitter
 assign = require 'object-assign'
 ActionTypes = AppConstants.ActionTypes
-LcStorageHelp = require '../help/LcStorageHelp'
 
 CHANGE_EVENT = 'change'
 
-_postData = []
+_postsData = []
 
 _editIdx = null
 
@@ -15,10 +14,10 @@ _isModalOpen = false
 
 PostStore = assign({}, EventEmitter.prototype, {
 	getPosts: ->
-		_postData
+		_postsData
 
 	getEditPost: ->
-		_postData[_editIdx] if _editIdx?
+		_postsData[_editIdx] if _editIdx?
 
 	getModalStatus: ->
 		_isModalOpen
@@ -36,22 +35,22 @@ PostStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register (action) ->
 	switch action.actionType
 		when ActionTypes.POST_LOADED_POSTS_DATA
-			if typeof action.content is 'string'
-				_postData = JSON.parse action.content
+			if typeof action.posts is 'string'
+				_postsData = JSON.parse action.posts
 			else
-				_postData = action.content
+				_postsData = action.posts
 			PostStore.emitChange()
 		when ActionTypes.POST_CREATE
 			PostStore.emitChange()
 		when ActionTypes.POST_CREATE_PREVIOUSLY
-			_postData.unshift(action.post)
+			_postsData.unshift(action.post)
 			PostStore.emitChange()
 		when ActionTypes.POST_UPDATE_PREVIOUSLY
-			_postData = _postData.map (post) ->
+			_postsData = _postsData.map (post) ->
 				if post.id is action.post.id then action.post else post
 			PostStore.emitChange()
 		when ActionTypes.POST_DESTROY_PREVIOUSLY
-			_postData = _postData.filter (ele) -> ele.id != action.post.id
+			_postsData = _postsData.filter (ele) -> ele.id != action.post.id
 			PostStore.emitChange()
 		when ActionTypes.POST_EDIT
 			_editIdx = action.idx

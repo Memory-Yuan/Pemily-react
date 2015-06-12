@@ -15,7 +15,7 @@ PostAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_POSTS_DATA, content: result
+			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_POSTS_DATA, posts: result
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
