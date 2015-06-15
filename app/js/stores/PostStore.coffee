@@ -8,16 +8,29 @@ CHANGE_EVENT = 'change'
 
 _postsData = []
 
-_editIdx = null
+_editPostIdx = null
 
 _isModalOpen = false
+
+_editCommentIdx = null
+
+_getPostIdxByID = (post_id) ->
+	post_idx = -1
+	_postsData.some (post, index) ->
+		if post.id == post_id
+			post_idx = index
+			true
+	if post_idx is -1 then null else post_idx
 
 PostStore = assign({}, EventEmitter.prototype, {
 	getPosts: ->
 		_postsData
 
 	getEditPost: ->
-		_postsData[_editIdx] if _editIdx?
+		_postsData[_editPostIdx] if _editPostIdx?
+
+	getEditCommentIdx: ->
+		_editCommentIdx
 
 	getModalStatus: ->
 		_isModalOpen
@@ -40,8 +53,6 @@ AppDispatcher.register (action) ->
 			else
 				_postsData = action.posts
 			PostStore.emitChange()
-		when ActionTypes.POST_CREATE
-			PostStore.emitChange()
 		when ActionTypes.POST_CREATE_PREVIOUSLY
 			_postsData.unshift(action.post)
 			PostStore.emitChange()
@@ -53,10 +64,35 @@ AppDispatcher.register (action) ->
 			_postsData = _postsData.filter (ele) -> ele.id != action.post.id
 			PostStore.emitChange()
 		when ActionTypes.POST_EDIT
-			_editIdx = action.idx
+			_editPostIdx = action.idx
 			PostStore.emitChange()
 		when ActionTypes.POST_MODAL_TRIGGER
 			_isModalOpen = !_isModalOpen
+			PostStore.emitChange()
+		when ActionTypes.COMMENT_LOADED_COMMENTS_DATA
+			if typeof action.comments is 'string'
+				comments = JSON.parse action.comments
+			else
+				comments = action.comments
+			post_idx = _getPostIdxByID(action.post_id)
+			_postsData[post_idx].comments = comments
+			PostStore.emitChange()
+		when ActionTypes.COMMENT_CREATE_PREVIOUSLY
+			post_idx = _getPostIdxByID(action.post_id)
+			_postsData[post_idx].comments.push(action.comment)
+			PostStore.emitChange()
+		when ActionTypes.COMMENT_UPDATE_PREVIOUSLY
+			post_idx = _getPostIdxByID(action.comment.post_id)
+			_postsData[post_idx].comments = _postsData[post_idx].comments.map (comment) ->
+				if comment.id is action.comment.id then action.comment else comment
+			PostStore.emitChange()
+		when ActionTypes.COMMENT_DESTROY_PREVIOUSLY
+			post_idx = _getPostIdxByID(action.comment.post_id)
+			_postsData[post_idx].comments = _postsData[post_idx].comments.filter (comment) ->
+				comment.id != action.comment.id
+			PostStore.emitChange()
+		when ActionTypes.COMMENT_EDIT
+			_editCommentIdx = action.idx
 			PostStore.emitChange()
 
 module.exports = PostStore

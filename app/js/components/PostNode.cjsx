@@ -3,6 +3,7 @@ PostAction = require '../actions/PostAction'
 PetStore = require '../stores/PetStore'
 RB = require 'react-bootstrap'
 { Panel, Button, DropdownButton, MenuItem } = RB
+CommentBox = require './CommentBox'
 
 PostNode = React.createClass
 
@@ -35,8 +36,8 @@ PostNode = React.createClass
 		iconEdit = <i className='glyphicon glyphicon-edit'></i>
 		iconDel = <i className='glyphicon glyphicon-trash'></i>
 
-		authOperate = 
-			if PetStore.isCorrectPet(@props.post.pet.id)
+		authOperate =
+			if @props.post.pet and PetStore.isCorrectPet(@props.post.pet.id)
 				<aside style={asideStyle}>
 					<DropdownButton bsStyle={'default'} bsSize={'small'} pullRight>
 						<MenuItem eventKey='1' onClick={@handleEdit}>{iconEdit} 編輯</MenuItem>
@@ -53,6 +54,7 @@ PostNode = React.createClass
 				<h2><a href>{@props.post.pet.name}</a></h2>
 				<h3>{@props.post.title}</h3>
 				<p>{@props.post.content}</p>
+				<CommentBox commentsData={@props.post.comments} post_id={@props.post.id} />
 			</article>
 		</Panel>
 

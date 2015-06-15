@@ -73,5 +73,67 @@ PostAction =
 	triggerModal: ->
 		AppDispatcher.dispatch actionType: ActionTypes.POST_MODAL_TRIGGER
 
+	loadCommentsFromServer: (post_id) ->
+		$.ajax
+			url: ApiUrl + '/' + post_id + '/comments'
+			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			AppDispatcher.dispatch actionType: ActionTypes.COMMENT_LOADED_COMMENTS_DATA, comments: result, post_id: post_id
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
+	createComment: (comment, post_id) ->
+		comment.pet = PetStore.getThisPetData()
+		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_CREATE_PREVIOUSLY, comment: comment, post_id: post_id
+		$.ajax
+			url: ApiUrl + '/' + post_id + '/comments'
+			dataType: 'json'
+			type: 'POST'
+			data: 
+				pet_id: PetStore.getThisPetId()
+				comment: comment
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			@loadCommentsFromServer(post_id)
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
+	editComment: (index) ->
+		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_EDIT, idx: index
+
+	updateComment: (comment) ->
+		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_UPDATE_PREVIOUSLY, comment: comment
+		@editComment(-1)
+		$.ajax
+			url: ApiUrl + '/' + comment.post_id + '/comments/' + comment.id
+			dataType: 'json'
+			type: 'PUT'
+			data: 
+				pet_id: PetStore.getThisPetId()
+				comment: comment
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			@loadCommentsFromServer(comment.post_id)
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
+	destroyComment: (comment) ->
+		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_DESTROY_PREVIOUSLY, comment: comment
+		$.ajax
+			url: ApiUrl + '/' + comment.post_id + '/comments/' + comment.id
+			dataType: 'json'
+			type: 'DELETE'
+			data: 
+				pet_id: PetStore.getThisPetId()
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			@loadCommentsFromServer(comment.post_id)
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 module.exports = PostAction
