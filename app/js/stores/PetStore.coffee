@@ -1,6 +1,6 @@
 AppDispatcher = require '../dispatcher/AppDispatcher'
 AppConstants = require '../constants/AppConstants'
-EventEmitter = require('events').EventEmitter
+EventEmitter = require 'eventemitter3'
 assign = require 'object-assign'
 ActionTypes = AppConstants.ActionTypes
 LcStorageHelp = require '../help/LcStorageHelp'
