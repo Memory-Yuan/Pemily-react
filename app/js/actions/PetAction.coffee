@@ -1,7 +1,7 @@
 AppDispatcher = require '../dispatcher/AppDispatcher'
 AppConstants = require '../constants/AppConstants'
 ActionTypes = AppConstants.ActionTypes
-ApiUrl = AppConstants.APIUrl + 'pets'
+ApiUrl = "#{AppConstants.APIUrl}/pets"
 AuthStore = require '../stores/AuthStore'
 
 PetAction = 
@@ -35,7 +35,7 @@ PetAction =
 	updatePet: (pet) ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_UPDATE_PREVIOUSLY, pet: pet
 		$.ajax
-			url: ApiUrl + '/' + pet.id
+			url: "#{ApiUrl}/#{pet.id}"
 			dataType: 'json'
 			type: 'PUT'
 			data: pet: pet
@@ -49,7 +49,7 @@ PetAction =
 	destroyPet: (pet) ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_DESTROY_PREVIOUSLY, pet: pet
 		$.ajax
-			url: ApiUrl + '/' + pet.id
+			url: "#{ApiUrl}/#{pet.id}"
 			dataType: 'json'
 			type: 'DELETE'
 			beforeSend: (xhr) ->
@@ -73,7 +73,7 @@ PetAction =
 
 	getOnePet: (id) ->
 		$.ajax
-			url: ApiUrl + '/' + id
+			url: "#{ApiUrl}/#{id}"
 			dataType: 'json'
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())

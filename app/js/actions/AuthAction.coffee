@@ -1,13 +1,13 @@
 AppDispatcher = require '../dispatcher/AppDispatcher'
 AppConstants = require '../constants/AppConstants'
 ActionTypes = AppConstants.ActionTypes
-ApiUrl = AppConstants.APIUrl + 'auth'
+ApiUrl = "#{AppConstants.APIUrl}/auth"
 AuthStore = require '../stores/AuthStore'
 
 AuthAction = 
 	signin: (email, password) ->
 		$.ajax
-			url: ApiUrl + '/signin'
+			url: "#{ApiUrl}/signin"
 			dataType: 'json'
 			type: 'POST'
 			data: email: email, password: password
@@ -23,7 +23,7 @@ AuthAction =
 
 	ping: ->
 		$.ajax
-			url: ApiUrl + '/ping'
+			url: "#{ApiUrl}/ping"
 			dataType: 'json'
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
@@ -34,7 +34,7 @@ AuthAction =
 
 	register: (user) ->
 		$.ajax
-			url: ApiUrl + '/register'
+			url: "#{ApiUrl}/register"
 			dataType: 'json'
 			type: 'POST'
 			data: user: user
@@ -45,7 +45,7 @@ AuthAction =
 
 	getUser: ->
 		$.ajax
-			url: ApiUrl + '/user_data'
+			url: "#{ApiUrl}/user_data"
 			dataType: 'json'
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())

@@ -1,7 +1,7 @@
 AppDispatcher = require '../dispatcher/AppDispatcher'
 AppConstants = require '../constants/AppConstants'
 ActionTypes = AppConstants.ActionTypes
-ApiUrl = AppConstants.APIUrl + 'posts'
+ApiUrl = "#{AppConstants.APIUrl}/posts"
 AuthStore = require '../stores/AuthStore'
 PetStore = require '../stores/PetStore'
 
@@ -39,7 +39,7 @@ PostAction =
 	updatePost: (post) ->
 		AppDispatcher.dispatch actionType: ActionTypes.POST_UPDATE_PREVIOUSLY, post: post
 		$.ajax
-			url: ApiUrl + '/' + post.id
+			url: "#{ApiUrl}/#{post.id}"
 			dataType: 'json'
 			type: 'PUT'
 			data: 
@@ -55,7 +55,7 @@ PostAction =
 	destroyPost: (post) ->
 		AppDispatcher.dispatch actionType: ActionTypes.POST_DESTROY_PREVIOUSLY, post: post
 		$.ajax
-			url: ApiUrl + '/' + post.id
+			url: "#{ApiUrl}/#{post.id}"
 			dataType: 'json'
 			type: 'DELETE'
 			data: 
@@ -75,7 +75,7 @@ PostAction =
 
 	loadCommentsFromServer: (post_id) ->
 		$.ajax
-			url: ApiUrl + '/' + post_id + '/comments'
+			url: "#{ApiUrl}/#{post_id}/comments"
 			dataType: 'json'
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
@@ -88,7 +88,7 @@ PostAction =
 		comment.pet = PetStore.getThisPetData()
 		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_CREATE_PREVIOUSLY, comment: comment, post_id: post_id
 		$.ajax
-			url: ApiUrl + '/' + post_id + '/comments'
+			url: "#{ApiUrl}/#{post_id}/comments"
 			dataType: 'json'
 			type: 'POST'
 			data: 
@@ -108,7 +108,7 @@ PostAction =
 		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_UPDATE_PREVIOUSLY, comment: comment
 		@editComment(-1)
 		$.ajax
-			url: ApiUrl + '/' + comment.post_id + '/comments/' + comment.id
+			url: "#{ApiUrl}/#{comment.post_id}/comments/#{comment.id}"
 			dataType: 'json'
 			type: 'PUT'
 			data: 
@@ -124,7 +124,7 @@ PostAction =
 	destroyComment: (comment) ->
 		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_DESTROY_PREVIOUSLY, comment: comment
 		$.ajax
-			url: ApiUrl + '/' + comment.post_id + '/comments/' + comment.id
+			url: "#{ApiUrl}/#{comment.post_id}/comments/#{comment.id}"
 			dataType: 'json'
 			type: 'DELETE'
 			data: 

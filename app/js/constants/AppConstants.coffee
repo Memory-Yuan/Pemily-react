@@ -29,4 +29,4 @@ module.exports =
 		COMMENT_DESTROY_PREVIOUSLY: null,
 		COMMENT_EDIT: null
 
-	APIUrl: 'http://localhost:3000/api/v1/'
+	APIUrl: 'http://localhost:3000/api/v1'
