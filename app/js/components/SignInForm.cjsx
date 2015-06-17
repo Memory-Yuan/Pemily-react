@@ -21,7 +21,7 @@ SigninForm = React.createClass
 		btnStyle=
 			height: '80px'
 			width: '80px'
-		<form className='signin-form form-horizontal' onSubmit={ @handleSubmit }>
+		<form className='form-horizontal' onSubmit={ @handleSubmit }>
 			<div className='col-xs-10'>
 				<Input
 					type='email'

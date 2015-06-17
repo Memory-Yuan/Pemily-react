@@ -12,12 +12,13 @@ Mixins = require './mixins/Mixins'
 Header = require './components/Header'
 Signin = require './components/Signin'
 Register = require './components/Register'
-PetBox = require './components/PetBox'
+MyPets = require './components/MyPets'
 NotFound = require './components/NotFound'
 PostRiver = require './components/PostRiver'
 
 ###
 ValidationMixin
+previous process
 ###
 
 RB = require 'react-bootstrap'
@@ -61,7 +62,7 @@ routes = (
 	<Route name='app' path='/' handler={App}>
 		<Route name='signin' handler={Signin}/>
 		<Route name='register' handler={Register}/>
-		<Route name='pets' handler={PetBox}/>
+		<Route name='mypets' handler={MyPets}/>
 		<Route name='inbox' handler={Inbox}>
 			<Route name='messages' handler={Message}>
 				<Route path=':id' handler={MessageDetail}/>

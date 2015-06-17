@@ -1,4 +1,3 @@
-# @cjsx React.DOM
 React = require 'react'
 PetAction = require '../actions/PetAction'
 PetStore = require '../stores/PetStore'
@@ -14,7 +13,7 @@ getAllStoreData = ->
 	isModalOpen: PetStore.getModalStatus()
 	editIdx: PetStore.getEditIdx()
 
-PetBox = React.createClass
+MyPets = React.createClass
 	mixins: [Mixins.Authenticated]
 
 	getInitialState: -> getAllStoreData()
@@ -33,7 +32,7 @@ PetBox = React.createClass
 	render: ->
 		pet = if @state.editIdx is -1 then false else @state.petsData[@state.editIdx]
 		<DocumentTitle title="My pets | Pemily">
-			<div className='pet-box'>
+			<div>
 				<h1>My pets</h1>
 				<PetList petsData={@state.petsData} />
 				<Button bsStyle='primary' onClick={@handleToggle}>New</Button>
@@ -43,4 +42,4 @@ PetBox = React.createClass
 	_onChange: ->
 		@setState getAllStoreData()
 
-module.exports = PetBox
+module.exports = MyPets

@@ -41,7 +41,7 @@ HeaderSignined = React.createClass
 		<Nav navbar right>
 			<p className='navbar-text'>{email}</p>
 			<p className='navbar-text'>{petName}</p>
-			<NavItem eventKey={1} href='#/pets'>My pets</NavItem>
+			<NavItem eventKey={1} href='#/mypets'>My pets</NavItem>
 			<DropdownButton eventKey={2} title={<i className='glyphicon glyphicon-cog'></i>}>
 				<MenuItem eventKey='1'>Action</MenuItem>
 				<MenuItem eventKey='2'>Another action</MenuItem>

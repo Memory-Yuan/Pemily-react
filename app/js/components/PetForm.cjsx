@@ -23,7 +23,7 @@ PetForm = React.createClass
 		PetAction.triggerModal()
 
 	render: ->
-		<form className='pet-form form-inline' onSubmit={ @handleSubmit }>
+		<form className='form-inline' onSubmit={ @handleSubmit }>
 			<Input
 				type='text'
 				label='Name'
