@@ -9,7 +9,7 @@ DocumentTitle = require 'react-document-title'
 Mixins = require '../mixins/Mixins'
 
 getAllStoreData = ->
-	petsData: PetStore.getPets()
+	myPetsData: PetStore.getMyPets()
 	isModalOpen: PetStore.getModalStatus()
 	editIdx: PetStore.getEditIdx()
 
@@ -30,11 +30,11 @@ MyPets = React.createClass
 		PetAction.triggerModal()
 
 	render: ->
-		pet = if @state.editIdx is -1 then false else @state.petsData[@state.editIdx]
+		pet = if @state.editIdx is -1 then false else @state.myPetsData[@state.editIdx]
 		<DocumentTitle title="My pets | Pemily">
 			<div>
 				<h1>My pets</h1>
-				<PetList petsData={@state.petsData} />
+				<PetList petsData={@state.myPetsData} />
 				<Button bsStyle='primary' onClick={@handleToggle}>New</Button>
 				<PetModalPayload isModalOpen={@state.isModalOpen} pet={pet} />
 			</div>

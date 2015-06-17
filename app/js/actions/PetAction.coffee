@@ -6,7 +6,7 @@ AuthStore = require '../stores/AuthStore'
 
 PetAction = 
 	loadPetsFromServer: ->
-		AppDispatcher.dispatch actionType: ActionTypes.PET_LOADING_PETS_DATA
+		AppDispatcher.dispatch actionType: ActionTypes.PET_LOADING_MYPETS_DATA
 		$.ajax
 			url: "#{ApiUrl}/mypets"
 			dataType: 'json'
@@ -14,7 +14,7 @@ PetAction =
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 			# data: limit: 1
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_PETS_DATA, pets: result
+			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_MYPETS_DATA, pets: result
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
@@ -71,14 +71,14 @@ PetAction =
 	asPet: (id) ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_AS_PET, id: id
 
-	getOnePet: (id) ->
+	getSelectedPet: (id) ->
 		$.ajax
 			url: "#{ApiUrl}/mypets/#{id}"
 			dataType: 'json'
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_ONEPET_DATA, pet: result
+			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_SELECTED_PET_DATA, pet: result
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 

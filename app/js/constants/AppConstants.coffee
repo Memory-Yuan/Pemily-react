@@ -2,9 +2,9 @@ keyMirror = require 'keymirror'
 
 module.exports = 
 	ActionTypes: keyMirror
-		PET_LOADING_PETS_DATA: null,
-		PET_LOADED_PETS_DATA: null,
-		PET_LOADED_ONEPET_DATA: null,
+		PET_LOADING_MYPETS_DATA: null,
+		PET_LOADED_MYPETS_DATA: null,
+		PET_LOADED_SELECTED_PET_DATA: null,
 		PET_NEW:null,
 		PET_EDIT: null,
 		PET_CREATE_PREVIOUSLY: null,

@@ -7,17 +7,19 @@ LcStorageHelp = require '../help/LcStorageHelp'
 
 CHANGE_EVENT = 'change'
 
-_petsData = []
+_myPetsData = []
 
 _isModalOpen = false
 
 _editIdx = -1;
 
+_selectedPetData = null
+
 _thisPetData = null
 
 PetStore = assign({}, EventEmitter.prototype, {
-	getPets: ->
-		_petsData
+	getMyPets: ->
+		_myPetsData
 
 	getModalStatus: ->
 		_isModalOpen
@@ -25,15 +27,18 @@ PetStore = assign({}, EventEmitter.prototype, {
 	getEditIdx:  ->
 		_editIdx
 
-	getThisPetId: ->
+	getSelectedPetId: ->
 		auth = LcStorageHelp.GetDataBy 'auth'
 		if auth then auth.petid else null
 
-	getThisPetData: ->
-		_thisPetData
+	getSelectedPetData: ->
+		_selectedPetData
 
 	isCorrectPet: (id) ->
-		id? and @getThisPetId() == id
+		id? and @getSelectedPetId() == id
+
+	getThisPetData: ->
+		_thisPetData
 
 	emitChange: ->
 		@emit(CHANGE_EVENT)
@@ -47,23 +52,23 @@ PetStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register (action) ->
 	switch action.actionType
-		when ActionTypes.PET_LOADING_PETS_DATA
+		when ActionTypes.PET_LOADING_MYPETS_DATA
 			console.log 'loading'
-		when ActionTypes.PET_LOADED_PETS_DATA
+		when ActionTypes.PET_LOADED_MYPETS_DATA
 			console.log 'loaded'
-			_petsData = action.pets
+			_myPetsData = action.pets
 			PetStore.emitChange()
 		when ActionTypes.FAILED
 			console.log action.err
 		when ActionTypes.PET_CREATE_PREVIOUSLY
-			_petsData.push action.pet
+			_myPetsData.push action.pet
 			PetStore.emitChange()
 		when ActionTypes.PET_UPDATE_PREVIOUSLY
-			_petsData = _petsData.map (pet) ->
+			_myPetsData = _myPetsData.map (pet) ->
 				if pet.id is action.pet.id then action.pet else pet
 			PetStore.emitChange()
 		when ActionTypes.PET_DESTROY_PREVIOUSLY
-			_petsData = _petsData.filter (ele) -> ele.id != action.pet.id
+			_myPetsData = _myPetsData.filter (ele) -> ele.id != action.pet.id
 			PetStore.emitChange()
 		when ActionTypes.PET_MODAL_TRIGGER
 			_isModalOpen = !_isModalOpen
@@ -79,8 +84,8 @@ AppDispatcher.register (action) ->
 			auth.petid = action.id
 			LcStorageHelp.StoreData('auth', auth)
 			PetStore.emitChange()
-		when ActionTypes.PET_LOADED_ONEPET_DATA
-			_thisPetData = action.pet
+		when ActionTypes.PET_LOADED_SELECTED_PET_DATA
+			_selectedPetData = action.pet
 			PetStore.emitChange()
 
 module.exports = PetStore

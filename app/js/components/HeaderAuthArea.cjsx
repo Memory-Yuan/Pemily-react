@@ -9,8 +9,8 @@ RB = require 'react-bootstrap'
 getAllStoreData = ->
 	isAuthenticated: AuthStore.isAuthenticated()
 	userData: AuthStore.getUserData()
-	thisPetId: PetStore.getThisPetId()
-	thisPetData: PetStore.getThisPetData()
+	selectedPetId: PetStore.getSelectedPetId()
+	selectedPetData: PetStore.getSelectedPetData()
 
 HeaderSignined = React.createClass
 	getInitialState: -> getAllStoreData()
@@ -19,7 +19,7 @@ HeaderSignined = React.createClass
 		AuthStore.addChangeListener(@_onChange)
 		PetStore.addChangeListener(@_onChange)
 		AuthAction.getUser() if @state.isAuthenticated
-		PetAction.getOnePet(@state.thisPetId) if @state.thisPetId
+		PetAction.getSelectedPet(@state.selectedPetId) if @state.selectedPetId
 
 	componentWillUnmount: ->
 		AuthStore.removeChangeListener(@_onChange)
@@ -37,7 +37,7 @@ HeaderSignined = React.createClass
 				</Nav>
 			)
 		email = if @state.userData then @state.userData.email else 'no data'
-		petName = if @state.thisPetData then @state.thisPetData.name else 'no data'
+		petName = if @state.selectedPetData then @state.selectedPetData.name else 'no data'
 		<Nav navbar right>
 			<p className='navbar-text'>{email}</p>
 			<p className='navbar-text'>{petName}</p>

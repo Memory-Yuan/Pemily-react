@@ -11,7 +11,7 @@ PostAction =
 			url: ApiUrl
 			dataType: 'json'
 			# type: 'GET'
-			# data: pet_id: PetStore.getThisPetId()
+			# data: pet_id: PetStore.getSelectedPetId()
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
@@ -20,14 +20,14 @@ PostAction =
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	createPost: (post) ->
-		post.pet = PetStore.getThisPetData()
+		post.pet = PetStore.getSelectedPetData()
 		AppDispatcher.dispatch actionType: ActionTypes.POST_CREATE_PREVIOUSLY, post: post
 		$.ajax
 			url: ApiUrl
 			dataType: 'json'
 			type: 'POST'
 			data: 
-				pet_id: PetStore.getThisPetId()
+				pet_id: PetStore.getSelectedPetId()
 				post: post
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
@@ -43,7 +43,7 @@ PostAction =
 			dataType: 'json'
 			type: 'PUT'
 			data: 
-				pet_id: PetStore.getThisPetId()
+				pet_id: PetStore.getSelectedPetId()
 				post: post
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
@@ -59,7 +59,7 @@ PostAction =
 			dataType: 'json'
 			type: 'DELETE'
 			data: 
-				pet_id: PetStore.getThisPetId()
+				pet_id: PetStore.getSelectedPetId()
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
@@ -85,14 +85,14 @@ PostAction =
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	createComment: (comment, post_id) ->
-		comment.pet = PetStore.getThisPetData()
+		comment.pet = PetStore.getSelectedPetData()
 		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_CREATE_PREVIOUSLY, comment: comment, post_id: post_id
 		$.ajax
 			url: "#{ApiUrl}/#{post_id}/comments"
 			dataType: 'json'
 			type: 'POST'
 			data: 
-				pet_id: PetStore.getThisPetId()
+				pet_id: PetStore.getSelectedPetId()
 				comment: comment
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
@@ -112,7 +112,7 @@ PostAction =
 			dataType: 'json'
 			type: 'PUT'
 			data: 
-				pet_id: PetStore.getThisPetId()
+				pet_id: PetStore.getSelectedPetId()
 				comment: comment
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
@@ -128,7 +128,7 @@ PostAction =
 			dataType: 'json'
 			type: 'DELETE'
 			data: 
-				pet_id: PetStore.getThisPetId()
+				pet_id: PetStore.getSelectedPetId()
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>

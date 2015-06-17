@@ -14,7 +14,7 @@ Pet = React.createClass
 
 	handleAsPet: ->
 		PetAction.asPet(@props.pet.id)
-		PetAction.getOnePet(@props.pet.id)
+		PetAction.getSelectedPet(@props.pet.id)
 
 	render: ->
 		<Panel header={@props.pet.name}>
