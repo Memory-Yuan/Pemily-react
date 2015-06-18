@@ -19,6 +19,17 @@ PostAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
+	loadPostsOfPet: (pet_id) ->
+		$.ajax
+			url: "#{ApiUrl}/of_pet/#{pet_id}"
+			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_POSTS_DATA_OF_PET, posts: result
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
 	createPost: (post) ->
 		post.pet = PetStore.getSelectedPetData()
 		AppDispatcher.dispatch actionType: ActionTypes.POST_CREATE_PREVIOUSLY, post: post

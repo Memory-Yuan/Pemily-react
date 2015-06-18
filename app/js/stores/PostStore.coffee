@@ -14,6 +14,8 @@ _isModalOpen = false
 
 _editCommentIdx = null
 
+_postsDataOfPet = []
+
 _getPostIdxByID = (post_id) ->
 	post_idx = -1
 	_postsData.some (post, index) ->
@@ -34,6 +36,9 @@ PostStore = assign({}, EventEmitter.prototype, {
 
 	getModalStatus: ->
 		_isModalOpen
+
+	getPostsOfPet: ->
+		_postsDataOfPet
 
 	emitChange: ->
 		@emit(CHANGE_EVENT)
@@ -93,6 +98,13 @@ AppDispatcher.register (action) ->
 			PostStore.emitChange()
 		when ActionTypes.COMMENT_EDIT
 			_editCommentIdx = action.idx
+			PostStore.emitChange()
+		when ActionTypes.POST_LOADED_POSTS_DATA_OF_PET
+			if typeof action.posts is 'string'
+				_postsDataOfPet = action.posts
+				_postsDataOfPet = JSON.parse action.posts
+			else
+				_postsDataOfPet = action.posts
 			PostStore.emitChange()
 
 module.exports = PostStore

@@ -82,4 +82,15 @@ PetAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
+	loadOnePet: (id) ->
+		$.ajax
+			url: "#{ApiUrl}/pets/#{id}"
+			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_ONE_PET_DATA, pet: result
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
 module.exports = PetAction

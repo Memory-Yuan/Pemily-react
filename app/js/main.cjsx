@@ -4,57 +4,33 @@ require '../css/main.scss'
 React = require 'react'
 Router = require 'react-router'
 { Route, DefaultRoute, RouteHandler, NotFoundRoute } = Router
-# Redirect = Router.Redirect
-# Link = Router.Link
 DocumentTitle = require 'react-document-title'
 Mixins = require './mixins/Mixins'
 
 Header = require './components/Header'
 Signin = require './components/Signin'
 Register = require './components/Register'
+Index = require './components/Index'
 MyPets = require './components/MyPets'
 NotFound = require './components/NotFound'
 PostRiver = require './components/PostRiver'
+PetProfile = require './components/PetProfile'
+PetsAll = require './components/PetsAll'
+PetIndex = require './components/PetIndex'
 
 ###
 ValidationMixin
 previous process
 ###
 
-RB = require 'react-bootstrap'
-Button = RB.Button
-# tmp page start ----------------------
-
-Inbox = React.createClass
-	mixins: [Mixins.Authenticated]
-	render: ->
-		<div>
-			<h2>Inbox</h2>
-			<RouteHandler/>
-		</div>
-
-Message = React.createClass
-	render: ->
-		<div>
-			<h3>Message</h3>
-			<RouteHandler/>
-		</div>
-
-MessageDetail = React.createClass
-	render: ->
-		<h4>Detail</h4>
-
-# tmp page end ------------------------
-
 App = React.createClass
 	render: ->
 		<DocumentTitle title='Pemily'>
 			<div>
 				<Header/>
-				<div className='container-fluid'>
+				<div>
 					<RouteHandler/>
 				</div>
-				
 			</div>
 		</DocumentTitle>
 
@@ -63,12 +39,16 @@ routes = (
 		<Route name='signin' handler={Signin}/>
 		<Route name='register' handler={Register}/>
 		<Route name='mypets' handler={MyPets}/>
-		<Route name='inbox' handler={Inbox}>
-			<Route name='messages' handler={Message}>
-				<Route path=':id' handler={MessageDetail}/>
-			</Route>
+		<Route path='mypets/:id' handler={PetProfile}>
+			<DefaultRoute handler={PetIndex}/>
 		</Route>
-		<DefaultRoute handler={PostRiver}/>
+		<Route name='pets' handler={PetsAll}/>
+		<Route path='pets/:id' handler={PetProfile}>
+			<DefaultRoute handler={PetIndex}/>
+		</Route>
+		<Route name='pets/:id/test/:t_id' handler={PetsAll}/>
+		<Route name='channel' handler={PostRiver}/>
+		<DefaultRoute handler={Index}/>
 		<NotFoundRoute handler={NotFound} />
 	</Route>
 )

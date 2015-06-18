@@ -37,17 +37,21 @@ HeaderSignined = React.createClass
 				</Nav>
 			)
 		email = if @state.userData then @state.userData.email else 'no data'
-		petName = if @state.selectedPetData then @state.selectedPetData.name else 'no data'
+		if @state.selectedPetData
+			petName = @state.selectedPetData.name
+			petUrl = "#/mypets/#{@state.selectedPetData.id}"
+		else
+			petName = 'no data'
+			petUrl = '#'
+
 		<Nav navbar right>
-			<p className='navbar-text'>{email}</p>
-			<p className='navbar-text'>{petName}</p>
-			<NavItem eventKey={1} href='#/mypets'>My pets</NavItem>
-			<DropdownButton eventKey={2} title={<i className='glyphicon glyphicon-cog'></i>}>
-				<MenuItem eventKey='1'>Action</MenuItem>
-				<MenuItem eventKey='2'>Another action</MenuItem>
-				<MenuItem eventKey='3'>Something else here</MenuItem>
+			<NavItem eventKey={1} href='#'>{email}</NavItem>
+			<NavItem eventKey={2} href={petUrl}>{petName}</NavItem>
+			<DropdownButton eventKey={3} title={<i className='glyphicon glyphicon-cog'></i>}>
+				<MenuItem eventKey='1' href='#/mypets'>My Pets</MenuItem>
+				<MenuItem eventKey='2' href='#/channel'>My Channel</MenuItem>
 				<MenuItem divider />
-				<MenuItem eventKey='4' onClick={ @handleSignout }>Signout</MenuItem>
+				<MenuItem eventKey='3' onClick={ @handleSignout }>Signout</MenuItem>
 			</DropdownButton>
 		</Nav>
 
