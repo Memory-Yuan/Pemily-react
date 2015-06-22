@@ -5,7 +5,6 @@ React = require 'react'
 Router = require 'react-router'
 { Route, DefaultRoute, RouteHandler, NotFoundRoute } = Router
 DocumentTitle = require 'react-document-title'
-Mixins = require './mixins/Mixins'
 
 Header = require './components/Header'
 Signin = require './components/Signin'
@@ -28,9 +27,7 @@ App = React.createClass
 		<DocumentTitle title='Pemily'>
 			<div>
 				<Header/>
-				<div>
-					<RouteHandler/>
-				</div>
+				<RouteHandler/>
 			</div>
 		</DocumentTitle>
 

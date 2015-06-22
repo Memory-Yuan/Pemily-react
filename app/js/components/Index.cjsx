@@ -13,7 +13,7 @@ Index = React.createClass
 	# 	PostStore.removeChangeListener(@_onChange)
 
 	render: ->
-		coverFont = 
+		coverFont =
 			fontSize: '64px'
 
 		<div>
@@ -22,6 +22,8 @@ Index = React.createClass
 				<p>Pets are members of the family</p>
 			</main>
 			<div className='container'>
+				<div>hot pet</div>
+				<hr/>
 				<div>hot post</div>
 				<hr/>
 				<div>hot album</div>

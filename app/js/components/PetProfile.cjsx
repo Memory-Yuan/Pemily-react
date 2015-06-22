@@ -2,7 +2,7 @@ React = require 'react'
 Router = require 'react-router'
 { RouteHandler } = Router
 RB = require 'react-bootstrap'
-{ Nav, NavItem } = RB
+{ Nav, NavItem, Button } = RB
 PetStore = require '../stores/PetStore'
 PetAction = require '../actions/PetAction'
 PostStore = require '../stores/PostStore'
@@ -35,11 +35,7 @@ PetProfile = React.createClass
 		<div>
 			<div className='cover'></div>
 			<div className='container'>
-				<Nav style={navStyle} bsStyle='pills' activeKey={1}>
-					<NavItem eventKey={1} href='/home'>關注</NavItem>
-					<NavItem eventKey={2} title='Item'>NavItem 2 content</NavItem>
-					<NavItem eventKey={3} disabled={true}>NavItem 3 content</NavItem>
-				</Nav>
+				<div>訂閱人數: {@state.thisPetData.followers_count}</div>
 				<RouteHandler pet={@state.thisPetData} posts={@state.postsOfPet}/>
 			</div>
 		</div>
