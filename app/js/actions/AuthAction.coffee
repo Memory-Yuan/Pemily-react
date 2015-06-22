@@ -20,6 +20,7 @@ AuthAction =
 	signout: ->
 		AppDispatcher.dispatch actionType: ActionTypes.AUTH_CLEAN
 		AppDispatcher.dispatch actionType: ActionTypes.USER_CLEAN_USER_DATA
+		AppDispatcher.dispatch actionType: ActionTypes.PET_CLEAN_SELECTED_PET_DATA
 
 	ping: ->
 		$.ajax

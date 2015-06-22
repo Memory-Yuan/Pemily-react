@@ -90,5 +90,8 @@ AppDispatcher.register (action) ->
 		when ActionTypes.PET_LOADED_ONE_PET_DATA
 			_thisPetData = action.pet
 			PetStore.emitChange()
+		when ActionTypes.PET_CLEAN_SELECTED_PET_DATA
+			_selectedPetData = null
+			PetStore.emitChange()
 
 module.exports = PetStore

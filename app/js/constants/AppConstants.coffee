@@ -13,6 +13,7 @@ module.exports =
 		PET_DESTROY_PREVIOUSLY: null,
 		PET_AS_PET: null,
 		PET_MODAL_TRIGGER: null,
+		PET_CLEAN_SELECTED_PET_DATA: null,
 		FAILED: null,
 		AUTH_STORE_API_TOKEN: null,
 		AUTH_CLEAN: null,
