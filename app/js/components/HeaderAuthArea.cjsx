@@ -12,10 +12,11 @@ HeaderAuthArea = React.createClass
 	render: ->
 		unless @props.isAuthenticated
 			return (
-				<Nav navbar right>
+				<Nav key='1' navbar right>
 					<NavItem eventKey={1} href='#/signin'>Signin</NavItem>
 				</Nav>
 			)
+
 		email = if @props.userData then @props.userData.email else 'no data'
 		if @props.selectedPetData
 			petName = @props.selectedPetData.name
@@ -24,7 +25,7 @@ HeaderAuthArea = React.createClass
 			petName = 'no data'
 			petUrl = '#'
 
-		<Nav navbar right>
+		<Nav key='2' navbar right>
 			<NavItem eventKey={1} href='#'>{email}</NavItem>
 			<NavItem eventKey={2} href={petUrl}>{petName}</NavItem>
 			<DropdownButton eventKey={3} title={<i className='glyphicon glyphicon-cog'></i>}>
