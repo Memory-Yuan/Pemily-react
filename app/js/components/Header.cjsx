@@ -20,7 +20,7 @@ Header = React.createClass
 						<Input type='text' buttonAfter={searchBtn} />
 					</form>
 				</Nav>
-				<HeaderAuthArea/>
+				<HeaderAuthArea {...@props}/>
 			</CollapsibleNav>
 		</Navbar>
 

@@ -6,6 +6,7 @@ Router = require 'react-router'
 { Route, DefaultRoute, RouteHandler, NotFoundRoute } = Router
 DocumentTitle = require 'react-document-title'
 
+GlobalContainer = require './containers/GlobalContainer'
 Header = require './components/Header'
 Signin = require './components/Signin'
 Register = require './components/Register'
@@ -25,10 +26,10 @@ previous process
 App = React.createClass
 	render: ->
 		<DocumentTitle title='Pemily'>
-			<div>
+			<GlobalContainer>
 				<Header/>
 				<RouteHandler/>
-			</div>
+			</GlobalContainer>
 		</DocumentTitle>
 
 routes = (

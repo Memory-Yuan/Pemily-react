@@ -1,45 +1,25 @@
 React = require 'react'
 AuthAction = require '../actions/AuthAction'
-AuthStore = require '../stores/AuthStore'
-PetAction = require '../actions/PetAction'
-PetStore = require '../stores/PetStore'
 RB = require 'react-bootstrap'
 { Nav, NavItem, MenuItem, DropdownButton } = RB
 
-getAllStoreData = ->
-	isAuthenticated: AuthStore.isAuthenticated()
-	userData: AuthStore.getUserData()
-	selectedPetId: PetStore.getSelectedPetId()
-	selectedPetData: PetStore.getSelectedPetData()
-
-HeaderSignined = React.createClass
-	getInitialState: -> getAllStoreData()
-
-	componentDidMount: ->
-		AuthStore.addChangeListener(@_onChange)
-		PetStore.addChangeListener(@_onChange)
-		AuthAction.getUser() if @state.isAuthenticated
-		PetAction.getSelectedPet(@state.selectedPetId) if @state.selectedPetId
-
-	componentWillUnmount: ->
-		AuthStore.removeChangeListener(@_onChange)
-		PetStore.removeChangeListener(@_onChange)
+HeaderAuthArea = React.createClass
 
 	handleSignout: (e) ->
 		e.preventDefault()
 		AuthAction.signout()
 
 	render: ->
-		unless @state.isAuthenticated
+		unless @props.isAuthenticated
 			return (
 				<Nav navbar right>
 					<NavItem eventKey={1} href='#/signin'>Signin</NavItem>
 				</Nav>
 			)
-		email = if @state.userData then @state.userData.email else 'no data'
-		if @state.selectedPetData
-			petName = @state.selectedPetData.name
-			petUrl = "#/mypets/#{@state.selectedPetData.id}"
+		email = if @props.userData then @props.userData.email else 'no data'
+		if @props.selectedPetData
+			petName = @props.selectedPetData.name
+			petUrl = "#/mypets/#{@props.selectedPetData.id}"
 		else
 			petName = 'no data'
 			petUrl = '#'
@@ -56,7 +36,4 @@ HeaderSignined = React.createClass
 			</DropdownButton>
 		</Nav>
 
-	_onChange: ->
-		@setState getAllStoreData()
-
-module.exports = HeaderSignined
+module.exports = HeaderAuthArea
