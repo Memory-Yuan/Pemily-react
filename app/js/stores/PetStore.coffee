@@ -17,6 +17,8 @@ _selectedPetData = null
 
 _thisPetData = null
 
+_myFollowedPet = []
+
 PetStore = assign({}, EventEmitter.prototype, {
 	getMyPets: ->
 		_myPetsData
@@ -39,6 +41,9 @@ PetStore = assign({}, EventEmitter.prototype, {
 
 	getThisPetData: ->
 		_thisPetData
+
+	getMyFollowedPets: ->
+		_myFollowedPet
 
 	emitChange: ->
 		@emit(CHANGE_EVENT)
@@ -92,6 +97,9 @@ AppDispatcher.register (action) ->
 			PetStore.emitChange()
 		when ActionTypes.PET_CLEAN_SELECTED_PET_DATA
 			_selectedPetData = null
+			PetStore.emitChange()
+		when ActionTypes.PET_LOADED_FOLLOWED_PET_DATA
+			_myFollowedPet = action.pets
 			PetStore.emitChange()
 
 module.exports = PetStore

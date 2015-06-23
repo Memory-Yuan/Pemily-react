@@ -93,4 +93,42 @@ PetAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
+	followPet: (id) ->
+		$.ajax
+			url: "#{ApiUrl}/pets/#{id}/follow"
+			dataType: 'json'
+			type: 'POST'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			@loadOnePet(id)
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
+	unfollowPet: (id, type) ->
+		$.ajax
+			url: "#{ApiUrl}/pets/#{id}/unfollow"
+			dataType: 'json'
+			type: 'DELETE'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			if type is 'profile'
+				@loadOnePet(id)
+			else if type is 'follow'
+				@loadFollowedPets()
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
+	loadFollowedPets: ->
+		$.ajax
+			url: "#{ApiUrl}/pets/myfollowed"
+			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_FOLLOWED_PET_DATA, pets: result
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
 module.exports = PetAction

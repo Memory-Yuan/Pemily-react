@@ -31,7 +31,7 @@ HeaderAuthArea = React.createClass
 			<DropdownButton eventKey={3} title={<i className='glyphicon glyphicon-cog'></i>}>
 				<MenuItem eventKey='1' href='#/mypets'>My Pets</MenuItem>
 				<MenuItem eventKey='2' href='#/channel'>My Channel</MenuItem>
-				<MenuItem eventKey='3' href='#/follow'>My Subscription</MenuItem>
+				<MenuItem eventKey='3' href='#/myfollow'>My Subscription</MenuItem>
 				<MenuItem divider />
 				<MenuItem eventKey='4' onClick={ @handleSignout }>Signout</MenuItem>
 			</DropdownButton>

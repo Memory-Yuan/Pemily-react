@@ -6,6 +6,7 @@ module.exports =
 		PET_LOADED_MYPETS_DATA: null,
 		PET_LOADED_SELECTED_PET_DATA: null,
 		PET_LOADED_ONE_PET: null,
+		PET_LOADED_FOLLOWED_PET_DATA: null,
 		PET_NEW:null,
 		PET_EDIT: null,
 		PET_CREATE_PREVIOUSLY: null,

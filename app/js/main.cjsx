@@ -17,11 +17,7 @@ PostRiver = require './components/PostRiver'
 PetProfile = require './components/PetProfile'
 PetsAll = require './components/PetsAll'
 PetIndex = require './components/PetIndex'
-
-###
-ValidationMixin
-previous process
-###
+MyFollow = require './components/MyFollow'
 
 App = React.createClass
 	render: ->
@@ -46,6 +42,7 @@ routes = (
 		</Route>
 		<Route name='pets/:id/test/:t_id' handler={PetsAll}/>
 		<Route name='channel' handler={PostRiver}/>
+		<Route name='myfollow' handler={MyFollow}/>
 		<DefaultRoute handler={Index}/>
 		<NotFoundRoute handler={NotFound} />
 	</Route>
