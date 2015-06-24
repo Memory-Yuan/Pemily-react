@@ -53,10 +53,7 @@ PostStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register (action) ->
 	switch action.actionType
 		when ActionTypes.POST_LOADED_POSTS_DATA
-			if typeof action.posts is 'string'
-				_postsData = JSON.parse action.posts
-			else
-				_postsData = action.posts
+			_postsData = action.posts
 			PostStore.emitChange()
 		when ActionTypes.POST_CREATE_PREVIOUSLY
 			_postsData.unshift(action.post)
@@ -75,10 +72,7 @@ AppDispatcher.register (action) ->
 			_isModalOpen = !_isModalOpen
 			PostStore.emitChange()
 		when ActionTypes.COMMENT_LOADED_COMMENTS_DATA
-			if typeof action.comments is 'string'
-				comments = JSON.parse action.comments
-			else
-				comments = action.comments
+			comments = action.comments
 			post_idx = _getPostIdxByID(action.post_id)
 			_postsData[post_idx].comments = comments
 			PostStore.emitChange()
@@ -100,11 +94,11 @@ AppDispatcher.register (action) ->
 			_editCommentIdx = action.idx
 			PostStore.emitChange()
 		when ActionTypes.POST_LOADED_POSTS_DATA_OF_PET
-			if typeof action.posts is 'string'
-				_postsDataOfPet = action.posts
-				_postsDataOfPet = JSON.parse action.posts
-			else
-				_postsDataOfPet = action.posts
+			_postsDataOfPet = action.posts
 			PostStore.emitChange()
+		when ActionTypes.POST_LOADED_NEXT_PAGE_POSTS_DATA
+			_postsData = _postsData.concat(action.posts)
+			PostStore.emitChange()
+
 
 module.exports = PostStore

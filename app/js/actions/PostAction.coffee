@@ -6,12 +6,12 @@ AuthStore = require '../stores/AuthStore'
 PetStore = require '../stores/PetStore'
 
 PostAction = 
-	loadPostsFromServer: ->
+	loadPostsFromServer: (order='updated_at') ->
 		$.ajax
 			url: ApiUrl
 			dataType: 'json'
-			# type: 'GET'
-			# data: pet_id: PetStore.getSelectedPetId()
+			type: 'GET'
+			data: order: order
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
@@ -29,6 +29,20 @@ PostAction =
 			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_POSTS_DATA_OF_PET, posts: result
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
+	loadNextPage: (page) ->
+		$.ajax
+			url: ApiUrl
+			dataType: 'json'
+			type: 'GET'
+			data: page: page
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+		.done (result) =>
+			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_NEXT_PAGE_POSTS_DATA, posts: result
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+
 
 	createPost: (post) ->
 		post.pet = PetStore.getSelectedPetData()
