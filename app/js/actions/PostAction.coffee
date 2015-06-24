@@ -4,14 +4,15 @@ ActionTypes = AppConstants.ActionTypes
 ApiUrl = "#{AppConstants.APIUrl}/posts"
 AuthStore = require '../stores/AuthStore'
 PetStore = require '../stores/PetStore'
+PostStore = require '../stores/PostStore'
 
 PostAction = 
-	loadPostsFromServer: (order='updated_at') ->
+	loadPostsFromServer: (order=AppConstants.DefaultOrder, per_page=AppConstants.DefaultPerPage) ->
 		$.ajax
 			url: ApiUrl
 			dataType: 'json'
 			type: 'GET'
-			data: order: order
+			data: order: order, per_page: per_page
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
@@ -30,19 +31,21 @@ PostAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
-	loadNextPage: (page) ->
+	loadNextPage: (page, order) ->
 		$.ajax
 			url: ApiUrl
 			dataType: 'json'
 			type: 'GET'
-			data: page: page
+			data: page: page, order: order
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_NEXT_PAGE_POSTS_DATA, posts: result
+			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_NEXT_PAGE_POSTS_DATA, posts: result, page: page
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
+	setOrderType: (order) ->
+		AppDispatcher.dispatch actionType: ActionTypes.POST_SET_ORDER, order: order
 
 	createPost: (post) ->
 		post.pet = PetStore.getSelectedPetData()
@@ -57,7 +60,7 @@ PostAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			@loadPostsFromServer()
+			@loadPostsFromServer(PostStore.getOrderType(), PostStore.getCurrentPage() * AppConstants.DefaultPerPage)
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
@@ -73,7 +76,7 @@ PostAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			@loadPostsFromServer()
+			@loadPostsFromServer(PostStore.getOrderType(), PostStore.getCurrentPage() * AppConstants.DefaultPerPage)
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
@@ -88,7 +91,7 @@ PostAction =
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
 		.done (result) =>
-			@loadPostsFromServer()
+			@loadPostsFromServer(PostStore.getOrderType(), PostStore.getCurrentPage() * AppConstants.DefaultPerPage)
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 

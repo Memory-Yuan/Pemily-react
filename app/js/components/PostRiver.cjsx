@@ -7,18 +7,17 @@ PostModalPayload = require './PostModalPayload'
 Mixins = require '../mixins/Mixins'
 RB = require 'react-bootstrap'
 { Panel,Button, ButtonToolbar } = RB
+AppConstants = require '../constants/AppConstants'
 
 getAllStoreData = ->
 	postData: PostStore.getPosts()
+	currentPage: PostStore.getCurrentPage()
+	orderType: PostStore.getOrderType()
 
 PostRiver = React.createClass
 	mixins: [Mixins.Authenticated]
 
-	getInitialState: -> 
-		stateData = getAllStoreData()
-		stateData.currentPage = 1
-		stateData.orderType = 'new'
-		stateData
+	getInitialState: -> getAllStoreData()
 
 	componentDidMount: ->
 		PostStore.addChangeListener(@_onChange)
@@ -28,13 +27,11 @@ PostRiver = React.createClass
 		PostStore.removeChangeListener(@_onChange)
 
 	handleLoadNextPage: ->
-		page = @state.currentPage + 1
-		@setState currentPage: page
-		PostAction.loadNextPage(page)
+		PostAction.loadNextPage(@state.currentPage + 1, @state.orderType)
 
 	handleOrder: (orderType) ->
-		@setState orderType: orderType
-		PostAction.loadPostsFromServer(orderType)
+		PostAction.loadPostsFromServer(orderType, @state.currentPage * AppConstants.DefaultPerPage)
+		PostAction.setOrderType(orderType)
 
 	render: ->
 		<div className='container'>
@@ -42,6 +39,7 @@ PostRiver = React.createClass
 				<PostForm />
 			</Panel>
 			<hr/>
+			<span>order by: {@state.orderType}</span>
 			<ButtonToolbar>
 				<Button onClick={@handleOrder.bind(@, 'created_at')}>create</Button>
 				<Button onClick={@handleOrder.bind(@, 'updated_at')}>update</Button>
@@ -50,6 +48,7 @@ PostRiver = React.createClass
 			<hr/>
 			<PostList postData={@state.postData} />
 			<Button onClick={@handleLoadNextPage}>load</Button>
+			<span>page: {@state.currentPage}</span>
 			<PostModalPayload />
 		</div>
 

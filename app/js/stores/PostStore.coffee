@@ -16,6 +16,10 @@ _editCommentIdx = null
 
 _postsDataOfPet = []
 
+_currentPage = 1
+
+_orderType = AppConstants.DefaultOrder
+
 _getPostIdxByID = (post_id) ->
 	post_idx = -1
 	_postsData.some (post, index) ->
@@ -39,6 +43,12 @@ PostStore = assign({}, EventEmitter.prototype, {
 
 	getPostsOfPet: ->
 		_postsDataOfPet
+
+	getCurrentPage: ->
+		_currentPage
+
+	getOrderType: ->
+		_orderType
 
 	emitChange: ->
 		@emit(CHANGE_EVENT)
@@ -98,6 +108,10 @@ AppDispatcher.register (action) ->
 			PostStore.emitChange()
 		when ActionTypes.POST_LOADED_NEXT_PAGE_POSTS_DATA
 			_postsData = _postsData.concat(action.posts)
+			_currentPage = action.page
+			PostStore.emitChange()
+		when ActionTypes.POST_SET_ORDER
+			_orderType = action.order
 			PostStore.emitChange()
 
 

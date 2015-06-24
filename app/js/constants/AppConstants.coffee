@@ -35,3 +35,5 @@ module.exports =
 		COMMENT_EDIT: null
 
 	APIUrl: 'http://localhost:3000/api/v1'
+	DefaultOrder: 'updated_at'
+	DefaultPerPage: 10
