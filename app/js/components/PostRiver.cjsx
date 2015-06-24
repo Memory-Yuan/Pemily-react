@@ -11,6 +11,8 @@ AppConstants = require '../constants/AppConstants'
 
 getAllStoreData = ->
 	postData: PostStore.getPosts()
+	isModalOpen: PostStore.getModalStatus()
+	editPost: PostStore.getEditPost()
 	currentPage: PostStore.getCurrentPage()
 	orderType: PostStore.getOrderType()
 
@@ -49,7 +51,7 @@ PostRiver = React.createClass
 			<PostList postData={@state.postData} />
 			<Button onClick={@handleLoadNextPage}>load</Button>
 			<span>page: {@state.currentPage}</span>
-			<PostModalPayload />
+			<PostModalPayload isModalOpen={@state.isModalOpen} editPost={@state.editPost} />
 		</div>
 
 	_onChange: ->
