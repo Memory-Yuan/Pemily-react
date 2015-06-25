@@ -1,6 +1,7 @@
 AppDispatcher = require '../dispatcher/AppDispatcher'
 AppConstants = require '../constants/AppConstants'
 ActionTypes = AppConstants.ActionTypes
+ErrorMsgs = AppConstants.ErrorMsgs
 ApiUrl = "#{AppConstants.APIUrl}/auth"
 AuthStore = require '../stores/AuthStore'
 
@@ -15,7 +16,7 @@ AuthAction =
 			AppDispatcher.dispatch actionType: ActionTypes.AUTH_STORE_API_TOKEN, token: result.token
 			@getUser()
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.AUTH_SIGNIN_FAILED, errMsg: ErrorMsgs.Unauthorized
 
 	signout: ->
 		AppDispatcher.dispatch actionType: ActionTypes.AUTH_CLEAN
@@ -40,9 +41,9 @@ AuthAction =
 			type: 'POST'
 			data: user: user
 		.done (result) =>
-			console.log 'success'
+			AppDispatcher.dispatch actionType: ActionTypes.USER_REGISTER_SUCCESS
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.USER_REGISTER_FAILED, errMsg: ErrorMsgs.RegisterFailed
 
 	getUser: ->
 		$.ajax

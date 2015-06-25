@@ -17,7 +17,10 @@ module.exports =
 		PET_CLEAN_SELECTED_PET_DATA: null,
 		FAILED: null,
 		AUTH_STORE_API_TOKEN: null,
+		AUTH_SIGNIN_FAILED: null,
 		AUTH_CLEAN: null,
+		USER_REGISTER_SUCCESS: null,
+		USER_REGISTER_FAILED: null,
 		USER_LOADED_USER_DATA: null,
 		USER_CLEAN_USER_DATA: null,
 		POST_LOADED_POSTS_DATA: null,
@@ -37,3 +40,6 @@ module.exports =
 	APIUrl: 'http://localhost:3000/api/v1'
 	DefaultOrder: 'updated_at'
 	DefaultPerPage: 10
+	ErrorMsgs:
+		Unauthorized: '帳號密碼錯誤。'
+		RegisterFailed: '註冊失敗。'

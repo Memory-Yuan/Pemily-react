@@ -1,5 +1,6 @@
 Router = require 'react-router'
 AuthStore = require '../stores/AuthStore'
+ErrorStore = require '../stores/ErrorStore'
 
 Mixins = 
 	Authenticated:
@@ -22,5 +23,20 @@ Mixins =
 		statics:
 			willTransitionTo: (transition) ->
 				transition.redirect('/', {}, {}) if AuthStore.isAuthenticated()
+
+	ErrorMessage: (type) ->
+
+		getInitialState: ->
+			errMsg: ''
+
+		componentDidMount: ->
+			ErrorStore.addChangeListener(@_onErrorMsgChange)
+
+		componentWillUnmount: ->
+			ErrorStore.removeChangeListener(@_onErrorMsgChange)
+
+		_onErrorMsgChange: ->
+			@setState errMsg: ErrorStore.getErrorMessage(type)
+
 
 module.exports = Mixins

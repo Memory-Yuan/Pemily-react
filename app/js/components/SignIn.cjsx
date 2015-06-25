@@ -4,9 +4,11 @@ SigninForm = require './SigninForm'
 AuthStore = require '../stores/AuthStore'
 DocumentTitle = require 'react-document-title'
 Mixins = require '../mixins/Mixins'
+RB = require 'react-bootstrap'
+{Alert} = RB
 
 Signin = React.createClass
-	mixins: [Router.State, Router.Navigation, Mixins.MooAuth]
+	mixins: [Router.State, Router.Navigation, Mixins.MooAuth, Mixins.ErrorMessage('signin')]
 
 	getInitialState: ->
 		nextPath: @getQuery().nextPath
@@ -16,6 +18,13 @@ Signin = React.createClass
 
 	componentWillUnmount: ->
 		AuthStore.removeChangeListener(@_checkAuthNNext)
+
+	renderAlert: ->
+		if @state.errMsg
+			<Alert bsStyle='danger'>
+				{@state.errMsg}
+			</Alert>
+		else <span/>
 
 	_checkAuthNNext: ->
 		@_gotoNextPath() if AuthStore.isAuthenticated()
@@ -30,8 +39,10 @@ Signin = React.createClass
 		wrapperStyle=
 			margin: '0 auto'
 			width: '50%'
+
 		<DocumentTitle title="Signin | Pemily">
-			<div>
+			<div className='container'>
+				{@renderAlert()}
 				<h1 className='center'>Signin</h1>
 				<div style={wrapperStyle}>
 					<SigninForm/>

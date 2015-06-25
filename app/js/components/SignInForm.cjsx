@@ -16,6 +16,7 @@ SigninForm = React.createClass
 	handleSubmit: (e) ->
 		e.preventDefault()
 		AuthAction.signin @state.email, @state.password
+		@setState email: '', password: ''
 
 	render: ->
 		btnStyle=

@@ -9,6 +9,8 @@ CHANGE_EVENT = 'change'
 
 _userData = null
 
+_registerStatus = null
+
 AuthStore = assign({}, EventEmitter.prototype, {
 	isAuthenticated: ->
 		if localStorage.auth then true else false
@@ -19,6 +21,9 @@ AuthStore = assign({}, EventEmitter.prototype, {
 	getToken: ->
 		auth = LcStorageHelp.GetDataBy 'auth'
 		if auth then auth.token else false
+
+	getRegisterStatus: ->
+		_registerStatus
 
 	emitChange: ->
 		@emit(CHANGE_EVENT)
@@ -43,6 +48,9 @@ AppDispatcher.register (action) ->
 			AuthStore.emitChange()
 		when ActionTypes.USER_CLEAN_USER_DATA
 			_userData = null
+			AuthStore.emitChange()
+		when ActionTypes.USER_REGISTER_SUCCESS
+			_registerStatus = 'success'
 			AuthStore.emitChange()
 
 module.exports = AuthStore
