@@ -16,23 +16,12 @@ AuthAction =
 			AppDispatcher.dispatch actionType: ActionTypes.AUTH_STORE_API_TOKEN, token: result.token
 			@getUser()
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.AUTH_SIGNIN_FAILED, errMsg: ErrorMsgs.Unauthorized
+			AppDispatcher.dispatch actionType: ActionTypes.HANDLE_FAILED, xhr: xhr, at: 'auth_signin'
 
 	signout: ->
 		AppDispatcher.dispatch actionType: ActionTypes.AUTH_CLEAN
 		AppDispatcher.dispatch actionType: ActionTypes.USER_CLEAN_USER_DATA
 		AppDispatcher.dispatch actionType: ActionTypes.PET_CLEAN_SELECTED_PET_DATA
-
-	ping: ->
-		$.ajax
-			url: "#{ApiUrl}/ping"
-			dataType: 'json'
-			beforeSend: (xhr) ->
-				xhr.setRequestHeader("Authorization", AuthStore.getToken())
-		.done (result) =>
-			console.log result
-		.fail (xhr, status, err) =>
-			# AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
 
 	register: (user) ->
 		$.ajax
@@ -43,7 +32,7 @@ AuthAction =
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.USER_REGISTER_SUCCESS
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.USER_REGISTER_FAILED, errMsg: ErrorMsgs.RegisterFailed
+			AppDispatcher.dispatch actionType: ActionTypes.HANDLE_FAILED, xhr: xhr, at: 'user_register'
 
 	getUser: ->
 		$.ajax
@@ -51,10 +40,9 @@ AuthAction =
 			dataType: 'json'
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
-			# data: limit: 1
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.USER_LOADED_USER_DATA, content: result
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 module.exports = AuthAction

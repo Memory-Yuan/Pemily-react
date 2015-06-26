@@ -63,8 +63,6 @@ AppDispatcher.register (action) ->
 			console.log 'loaded'
 			_myPetsData = action.pets
 			PetStore.emitChange()
-		when ActionTypes.FAILED
-			console.log action.err
 		when ActionTypes.PET_CREATE_PREVIOUSLY
 			_myPetsData.push action.pet
 			PetStore.emitChange()

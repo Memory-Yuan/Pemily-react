@@ -7,8 +7,16 @@ ActionTypes = AppConstants.ActionTypes
 CHANGE_EVENT = 'change'
 
 _errorMessage =
-	signin: null
-	register: null
+	auth_signin: null
+	user_register: null
+
+_parseMessage = (xhr) ->
+	return 'Service Unavailable' if xhr.status is 0
+	jmsg = JSON.parse(xhr.responseText)
+	if jmsg.error
+		jmsg.error
+	else
+		'unknown error'
 
 ErrorStore = assign({}, EventEmitter.prototype, {
 
@@ -32,12 +40,11 @@ ErrorStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register (action) ->
 	switch action.actionType
-		when ActionTypes.AUTH_SIGNIN_FAILED
-			_errorMessage.signin = action.errMsg
+		when ActionTypes.HANDLE_FAILED
+			_errorMessage[action.at] = _parseMessage(action.xhr)
 			ErrorStore.emitChange()
-		when ActionTypes.USER_REGISTER_FAILED
-			_errorMessage.register = action.errMsg
-			ErrorStore.emitChange()
+		when ActionTypes.FAILED
+			console.log action.err
 
 
 module.exports = ErrorStore

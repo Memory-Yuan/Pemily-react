@@ -8,7 +8,7 @@ RB = require 'react-bootstrap'
 {Alert} = RB
 
 Register = React.createClass
-	mixins: [Mixins.MooAuth, Router.Navigation, Mixins.ErrorMessage('register')]
+	mixins: [Mixins.MooAuth, Router.Navigation, Mixins.ErrorMessage('user_register')]
 
 	componentDidMount: ->
 		AuthStore.addChangeListener(@_checkNGoNext)

@@ -18,7 +18,7 @@ PostAction =
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_POSTS_DATA, posts: result
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	loadPostsOfPet: (pet_id) ->
 		$.ajax
@@ -29,7 +29,7 @@ PostAction =
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_POSTS_DATA_OF_PET, posts: result
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	loadNextPage: (page, order) ->
 		$.ajax
@@ -42,7 +42,7 @@ PostAction =
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.POST_LOADED_NEXT_PAGE_POSTS_DATA, posts: result, page: page
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	setOrderType: (order) ->
 		AppDispatcher.dispatch actionType: ActionTypes.POST_SET_ORDER, order: order
@@ -62,7 +62,7 @@ PostAction =
 		.done (result) =>
 			@loadPostsFromServer(PostStore.getOrderType(), PostStore.getCurrentPage() * AppConstants.DefaultPerPage)
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	updatePost: (post) ->
 		AppDispatcher.dispatch actionType: ActionTypes.POST_UPDATE_PREVIOUSLY, post: post
@@ -78,7 +78,7 @@ PostAction =
 		.done (result) =>
 			@loadPostsFromServer(PostStore.getOrderType(), PostStore.getCurrentPage() * AppConstants.DefaultPerPage)
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	destroyPost: (post) ->
 		AppDispatcher.dispatch actionType: ActionTypes.POST_DESTROY_PREVIOUSLY, post: post
@@ -93,7 +93,7 @@ PostAction =
 		.done (result) =>
 			@loadPostsFromServer(PostStore.getOrderType(), PostStore.getCurrentPage() * AppConstants.DefaultPerPage)
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	editPost: (idx) ->
 		AppDispatcher.dispatch actionType: ActionTypes.POST_EDIT, idx: idx
@@ -110,7 +110,7 @@ PostAction =
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.COMMENT_LOADED_COMMENTS_DATA, comments: result, post_id: post_id
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	createComment: (comment, post_id) ->
 		comment.pet = PetStore.getSelectedPetData()
@@ -127,7 +127,7 @@ PostAction =
 		.done (result) =>
 			@loadCommentsFromServer(post_id)
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	editComment: (index) ->
 		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_EDIT, idx: index
@@ -147,7 +147,7 @@ PostAction =
 		.done (result) =>
 			@loadCommentsFromServer(comment.post_id)
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	destroyComment: (comment) ->
 		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_DESTROY_PREVIOUSLY, comment: comment
@@ -162,6 +162,6 @@ PostAction =
 		.done (result) =>
 			@loadCommentsFromServer(comment.post_id)
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 module.exports = PostAction

@@ -12,11 +12,10 @@ PetAction =
 			dataType: 'json'
 			beforeSend: (xhr) ->
 				xhr.setRequestHeader("Authorization", AuthStore.getToken())
-			# data: limit: 1
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_MYPETS_DATA, pets: result
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	createPet: (pet) ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_CREATE_PREVIOUSLY, pet: pet
@@ -30,7 +29,7 @@ PetAction =
 		.done (result) =>
 			@loadPetsFromServer()
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	updatePet: (pet) ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_UPDATE_PREVIOUSLY, pet: pet
@@ -44,7 +43,7 @@ PetAction =
 		.done (result) =>
 			@loadPetsFromServer()
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	destroyPet: (pet) ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_DESTROY_PREVIOUSLY, pet: pet
@@ -57,7 +56,7 @@ PetAction =
 		.done (result) =>
 			@loadPetsFromServer()
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	triggerModal: ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_MODAL_TRIGGER
@@ -80,7 +79,7 @@ PetAction =
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_SELECTED_PET_DATA, pet: result
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	loadOnePet: (id) ->
 		$.ajax
@@ -91,7 +90,7 @@ PetAction =
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_ONE_PET_DATA, pet: result
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	followPet: (id) ->
 		$.ajax
@@ -103,7 +102,7 @@ PetAction =
 		.done (result) =>
 			@loadOnePet(id)
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	unfollowPet: (id, type) ->
 		$.ajax
@@ -118,7 +117,7 @@ PetAction =
 			else if type is 'follow'
 				@loadFollowedPets()
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	loadFollowedPets: ->
 		$.ajax
@@ -129,6 +128,6 @@ PetAction =
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.PET_LOADED_FOLLOWED_PET_DATA, pets: result
 		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, err: xhr
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 module.exports = PetAction

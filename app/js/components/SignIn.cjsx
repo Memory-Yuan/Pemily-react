@@ -8,7 +8,7 @@ RB = require 'react-bootstrap'
 {Alert} = RB
 
 Signin = React.createClass
-	mixins: [Router.State, Router.Navigation, Mixins.MooAuth, Mixins.ErrorMessage('signin')]
+	mixins: [Router.State, Router.Navigation, Mixins.MooAuth, Mixins.ErrorMessage('auth_signin')]
 
 	getInitialState: ->
 		nextPath: @getQuery().nextPath

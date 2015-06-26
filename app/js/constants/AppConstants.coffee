@@ -2,6 +2,8 @@ keyMirror = require 'keymirror'
 
 module.exports = 
 	ActionTypes: keyMirror
+		HANDLE_FAILED: null,
+		FAILED: null,
 		PET_LOADING_MYPETS_DATA: null,
 		PET_LOADED_MYPETS_DATA: null,
 		PET_LOADED_SELECTED_PET_DATA: null,
@@ -15,12 +17,9 @@ module.exports =
 		PET_AS_PET: null,
 		PET_MODAL_TRIGGER: null,
 		PET_CLEAN_SELECTED_PET_DATA: null,
-		FAILED: null,
 		AUTH_STORE_API_TOKEN: null,
-		AUTH_SIGNIN_FAILED: null,
 		AUTH_CLEAN: null,
 		USER_REGISTER_SUCCESS: null,
-		USER_REGISTER_FAILED: null,
 		USER_LOADED_USER_DATA: null,
 		USER_CLEAN_USER_DATA: null,
 		POST_LOADED_POSTS_DATA: null,
