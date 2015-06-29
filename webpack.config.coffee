@@ -51,6 +51,11 @@ config = {
       "root.jQuery": "jquery"
     })
   ]
+
+  node:
+    net: 'empty'
+    tls: 'empty'
+    dns: 'empty'
 }
 
 module.exports = config
