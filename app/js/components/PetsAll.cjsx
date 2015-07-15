@@ -1,9 +1,10 @@
-React = require 'react'
-
 
 # getAllStoreData = ->
 
 PetsAll = React.createClass
+
+	displayName: 'PetsAll'
+
 	# getInitialState: -> getAllStoreData()
 
 	# componentDidMount: ->
@@ -13,8 +14,6 @@ PetsAll = React.createClass
 	# 	PostStore.removeChangeListener(@_onChange)
 
 	render: ->
-		console.log @props.params.id
-		console.log @props.params.t_id
 		<div>
 			<h1>All pets</h1>
 		</div>

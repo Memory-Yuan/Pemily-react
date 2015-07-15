@@ -1,12 +1,12 @@
-React = require 'react'
-
-
 # getAllStoreData = ->
 
 Index = React.createClass
+
+	displayName: 'Index'
+
 	# getInitialState: -> getAllStoreData()
 
-	# componentDidMount: ->
+	componentDidMount: ->
 	# 	PostStore.addChangeListener(@_onChange)
 
 	# componentWillUnmount: ->
@@ -17,18 +17,21 @@ Index = React.createClass
 			fontSize: '64px'
 
 		<div>
-			<main className='cover'>
-				<p style={coverFont}>Pemily</p>
-				<p>Pets are members of the family</p>
+			<main className='cover orange'>
+				<div className='section'>
+					<p style={coverFont}>Pemily</p>
+					<p>Pets are members of the family</p>
+				</div>
 			</main>
 			<div className='container'>
-				<div>hot pet</div>
-				<hr/>
-				<div>hot post</div>
-				<hr/>
-				<div>hot album</div>
-				<hr/>
-				<div>hot video</div>
+				<div className="divider" />
+				<section>hot pet</section>
+				<div className="divider" />
+				<section>hot post</section>
+				<div className="divider" />
+				<section>hot album</section>
+				<div className="divider" />
+				<section>hot video</section>
 			</div>
 		</div>
 

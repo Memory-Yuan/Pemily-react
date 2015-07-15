@@ -1,13 +1,13 @@
-React = require 'react'
 Router = require 'react-router'
 SigninForm = require './SigninForm'
 AuthStore = require '../stores/AuthStore'
 DocumentTitle = require 'react-document-title'
 Mixins = require '../mixins/Mixins'
-RB = require 'react-bootstrap'
-{Alert} = RB
 
 Signin = React.createClass
+
+	displayName: 'Signin'
+
 	mixins: [Router.State, Router.Navigation, Mixins.MooAuth, Mixins.ErrorMessage('auth_signin')]
 
 	getInitialState: ->
@@ -20,11 +20,12 @@ Signin = React.createClass
 		AuthStore.removeChangeListener(@_checkAuthNNext)
 
 	renderAlert: ->
-		if @state.errMsg
-			<Alert bsStyle='danger'>
-				{@state.errMsg}
-			</Alert>
-		else <span/>
+		console.log @state.errMsg if @state.errMsg
+		# if @state.errMsg
+		# 	<Alert bsStyle='danger'>
+		# 		{@state.errMsg}
+		# 	</Alert>
+		# else <span/>
 
 	_checkAuthNNext: ->
 		@_gotoNextPath() if AuthStore.isAuthenticated()
@@ -36,17 +37,16 @@ Signin = React.createClass
 			@replaceWith('/')
 
 	render: ->
-		wrapperStyle=
+		wrapperStyle =
 			margin: '0 auto'
-			width: '50%'
+			width: '60%'
 
-		<DocumentTitle title="Signin | Pemily">
+		<DocumentTitle title='Signin | Pemily'>
 			<div className='container'>
 				{@renderAlert()}
-				<h1 className='center'>Signin</h1>
+				<h1 className='center-align'>Signin</h1>
 				<div style={wrapperStyle}>
-					<SigninForm/>
-					<a href='#/register'>註冊</a>
+					<SigninForm />
 				</div>
 			</div>
 		</DocumentTitle>

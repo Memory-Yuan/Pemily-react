@@ -1,19 +1,17 @@
-React = require 'react'
 PetAction = require '../actions/PetAction'
 PetStore = require '../stores/PetStore'
 PetList = require './PetList'
-PetModalPayload = require './PetModalPayload'
-RB = require 'react-bootstrap'
-Button = RB.Button
+PetModal = require './PetModal'
 DocumentTitle = require 'react-document-title'
 Mixins = require '../mixins/Mixins'
 
 getAllStoreData = ->
 	myPetsData: PetStore.getMyPets()
-	isModalOpen: PetStore.getModalStatus()
-	editIdx: PetStore.getEditIdx()
 
 MyPets = React.createClass
+
+	displayName: 'MyPets'
+
 	mixins: [Mixins.Authenticated]
 
 	getInitialState: -> getAllStoreData()
@@ -25,21 +23,20 @@ MyPets = React.createClass
 	componentWillUnmount: ->
 		PetStore.removeChangeListener(@_onChange)
 
-	handleToggle: ->
-		PetAction.newPet()
-		PetAction.triggerModal()
+	_newPet: ->
+		@refs.petModal.trigger()
 
-	render: ->
-		pet = if @state.editIdx is -1 then false else @state.myPetsData[@state.editIdx]
-		<DocumentTitle title="My pets | Pemily">
-			<div>
-				<h1>My pets</h1>
-				<PetList petsData={@state.myPetsData} />
-				<Button bsStyle='primary' onClick={@handleToggle}>New</Button>
-				<PetModalPayload isModalOpen={@state.isModalOpen} pet={pet} />
-			</div>
-		</DocumentTitle>
 	_onChange: ->
 		@setState getAllStoreData()
+
+	render: ->
+		<DocumentTitle title='My pets | Pemily'>
+			<div className='container'>
+				<h1 className='center-align'>My pets</h1>
+				<a className='waves-effect waves-light btn' onClick={@_newPet}>New</a>
+				<PetList petsData={@state.myPetsData} />
+				<PetModal m_id='pet_new_modal' m_title='New pet' ref='petModal' />
+			</div>
+		</DocumentTitle>
 
 module.exports = MyPets

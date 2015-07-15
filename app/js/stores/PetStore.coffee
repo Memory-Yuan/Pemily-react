@@ -9,10 +9,6 @@ CHANGE_EVENT = 'change'
 
 _myPetsData = []
 
-_isModalOpen = false
-
-_editIdx = -1;
-
 _selectedPetData = null
 
 _thisPetData = null
@@ -22,12 +18,6 @@ _myFollowedPet = []
 PetStore = assign({}, EventEmitter.prototype, {
 	getMyPets: ->
 		_myPetsData
-
-	getModalStatus: ->
-		_isModalOpen
-
-	getEditIdx:  ->
-		_editIdx
 
 	getSelectedPetId: ->
 		auth = LcStorageHelp.GetDataBy 'auth'
@@ -72,15 +62,6 @@ AppDispatcher.register (action) ->
 			PetStore.emitChange()
 		when ActionTypes.PET_DESTROY_PREVIOUSLY
 			_myPetsData = _myPetsData.filter (ele) -> ele.id != action.pet.id
-			PetStore.emitChange()
-		when ActionTypes.PET_MODAL_TRIGGER
-			_isModalOpen = !_isModalOpen
-			PetStore.emitChange()
-		when ActionTypes.PET_NEW
-			_editIdx = -1
-			PetStore.emitChange()
-		when ActionTypes.PET_EDIT
-			_editIdx = action.idx
 			PetStore.emitChange()
 		when ActionTypes.PET_AS_PET
 			auth = LcStorageHelp.GetDataBy 'auth'

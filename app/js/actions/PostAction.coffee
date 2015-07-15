@@ -65,6 +65,7 @@ PostAction =
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 	updatePost: (post) ->
+		post.pet = PetStore.getSelectedPetData()
 		AppDispatcher.dispatch actionType: ActionTypes.POST_UPDATE_PREVIOUSLY, post: post
 		$.ajax
 			url: "#{ApiUrl}/#{post.id}"
@@ -95,12 +96,6 @@ PostAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
-	editPost: (idx) ->
-		AppDispatcher.dispatch actionType: ActionTypes.POST_EDIT, idx: idx
-
-	triggerModal: ->
-		AppDispatcher.dispatch actionType: ActionTypes.POST_MODAL_TRIGGER
-
 	loadCommentsFromServer: (post_id) ->
 		$.ajax
 			url: "#{ApiUrl}/#{post_id}/comments"
@@ -129,10 +124,15 @@ PostAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
-	editComment: (index) ->
-		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_EDIT, idx: index
+	editComment: (id) ->
+		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_EDIT, id: id
+
+	cancelEditComment: ->
+		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_EDIT_CANCEL
 
 	updateComment: (comment) ->
+		comment.pet = PetStore.getSelectedPetData()
+		console.log comment
 		AppDispatcher.dispatch actionType: ActionTypes.COMMENT_UPDATE_PREVIOUSLY, comment: comment
 		@editComment(-1)
 		$.ajax

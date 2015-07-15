@@ -8,11 +8,7 @@ CHANGE_EVENT = 'change'
 
 _postsData = []
 
-_editPostIdx = null
-
-_isModalOpen = false
-
-_editCommentIdx = null
+_editCommentId = null
 
 _postsDataOfPet = []
 
@@ -32,14 +28,8 @@ PostStore = assign({}, EventEmitter.prototype, {
 	getPosts: ->
 		_postsData
 
-	getEditPost: ->
-		_postsData[_editPostIdx] if _editPostIdx?
-
-	getEditCommentIdx: ->
-		_editCommentIdx
-
-	getModalStatus: ->
-		_isModalOpen
+	getEditCommentId: ->
+		_editCommentId
 
 	getPostsOfPet: ->
 		_postsDataOfPet
@@ -75,12 +65,6 @@ AppDispatcher.register (action) ->
 		when ActionTypes.POST_DESTROY_PREVIOUSLY
 			_postsData = _postsData.filter (ele) -> ele.id != action.post.id
 			PostStore.emitChange()
-		when ActionTypes.POST_EDIT
-			_editPostIdx = action.idx
-			PostStore.emitChange()
-		when ActionTypes.POST_MODAL_TRIGGER
-			_isModalOpen = !_isModalOpen
-			PostStore.emitChange()
 		when ActionTypes.COMMENT_LOADED_COMMENTS_DATA
 			comments = action.comments
 			post_idx = _getPostIdxByID(action.post_id)
@@ -101,7 +85,10 @@ AppDispatcher.register (action) ->
 				comment.id != action.comment.id
 			PostStore.emitChange()
 		when ActionTypes.COMMENT_EDIT
-			_editCommentIdx = action.idx
+			_editCommentId = action.id
+			PostStore.emitChange()
+		when ActionTypes.COMMENT_EDIT_CANCEL
+			_editCommentId = null
 			PostStore.emitChange()
 		when ActionTypes.POST_LOADED_POSTS_DATA_OF_PET
 			_postsDataOfPet = action.posts

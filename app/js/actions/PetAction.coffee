@@ -58,15 +58,6 @@ PetAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
-	triggerModal: ->
-		AppDispatcher.dispatch actionType: ActionTypes.PET_MODAL_TRIGGER
-
-	newPet: ->
-		AppDispatcher.dispatch actionType: ActionTypes.PET_NEW
-
-	editPet: (idx) ->
-		AppDispatcher.dispatch actionType: ActionTypes.PET_EDIT, idx: idx
-
 	asPet: (id) ->
 		AppDispatcher.dispatch actionType: ActionTypes.PET_AS_PET, id: id
 

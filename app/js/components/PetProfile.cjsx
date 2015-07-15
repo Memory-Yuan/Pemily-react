@@ -1,8 +1,4 @@
-React = require 'react'
-Router = require 'react-router'
-{ RouteHandler } = Router
-RB = require 'react-bootstrap'
-{ Nav, NavItem, Button } = RB
+{ RouteHandler } = require 'react-router'
 PetStore = require '../stores/PetStore'
 PetAction = require '../actions/PetAction'
 PostStore = require '../stores/PostStore'
@@ -14,6 +10,9 @@ getAllStoreData = ->
 	postsOfPet: PostStore.getPostsOfPet()
 
 PetProfile = React.createClass
+
+	displayName: 'PetProfile'
+
 	mixins: [Mixins.Authenticated]
 
 	getInitialState: -> getAllStoreData()
@@ -34,22 +33,22 @@ PetProfile = React.createClass
 	handleUnfollow: ->
 		PetAction.unfollowPet @state.thisPetData.id, 'profile'
 
+	_onChange: ->
+		@setState getAllStoreData()
+
 	render: ->
 		return <span/> unless @state.thisPetData
-
-		navStyle =
-			marginBottom: '20px'
 
 		followBtn =
 			if !@props.userData or @state.thisPetData.user_id is @props.userData.id
 				<span/>
 			else if @state.thisPetData.is_followed
-				<Button onClick={@handleUnfollow}>已訂閱</Button>
+				<a className='waves-effect waves-light btn' onClick={@handleUnfollow}>已訂閱</a>
 			else
-				<Button onClick={@handleFollow}>訂閱</Button>
+				<a className='waves-effect btn white black-text' onClick={@handleFollow}>訂閱</a>
 
 		<div>
-			<div className='cover'></div>
+			<main className='cover orange'></main>
 			<div className='container'>
 				<div>
 					{followBtn}
@@ -58,8 +57,5 @@ PetProfile = React.createClass
 				<RouteHandler pet={@state.thisPetData} posts={@state.postsOfPet}/>
 			</div>
 		</div>
-
-	_onChange: ->
-		@setState getAllStoreData()
 
 module.exports = PetProfile

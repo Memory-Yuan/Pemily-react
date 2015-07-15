@@ -1,22 +1,19 @@
-React = require 'react'
 PostAction = require '../actions/PostAction'
 PostStore = require '../stores/PostStore'
 PostList = require './PostList'
 PostForm = require './PostForm'
-PostModalPayload = require './PostModalPayload'
 Mixins = require '../mixins/Mixins'
-RB = require 'react-bootstrap'
-{ Panel,Button, ButtonToolbar } = RB
 AppConstants = require '../constants/AppConstants'
 
 getAllStoreData = ->
 	postData: PostStore.getPosts()
-	isModalOpen: PostStore.getModalStatus()
-	editPost: PostStore.getEditPost()
 	currentPage: PostStore.getCurrentPage()
 	orderType: PostStore.getOrderType()
 
 PostRiver = React.createClass
+
+	displayName: 'PostRiver'
+
 	mixins: [Mixins.Authenticated]
 
 	getInitialState: -> getAllStoreData()
@@ -24,37 +21,58 @@ PostRiver = React.createClass
 	componentDidMount: ->
 		PostStore.addChangeListener(@_onChange)
 		PostAction.loadPostsFromServer()
+		$('select').material_select()
 
 	componentWillUnmount: ->
 		PostStore.removeChangeListener(@_onChange)
 
-	handleLoadNextPage: ->
+	_handleLoadNextPage: ->
 		PostAction.loadNextPage(@state.currentPage + 1, @state.orderType)
 
-	handleOrder: (orderType) ->
-		PostAction.loadPostsFromServer(orderType, @state.currentPage * AppConstants.DefaultPerPage)
-		PostAction.setOrderType(orderType)
+	_onOrderChange: ->
+		order = @refs.orderType.getDOMNode().value
+		return if order is 'hot'
+		@setState orderType: order
+		PostAction.loadPostsFromServer(order, @state.currentPage * AppConstants.DefaultPerPage)
+		PostAction.setOrderType(order)
 
-	render: ->
-		<div className='container'>
-			<Panel className='pos-relative'>
-				<PostForm />
-			</Panel>
-			<hr/>
-			<span>order by: {@state.orderType}</span>
-			<ButtonToolbar>
-				<Button onClick={@handleOrder.bind(@, 'created_at')}>create</Button>
-				<Button onClick={@handleOrder.bind(@, 'updated_at')}>update</Button>
-				<Button>hot</Button>
-			</ButtonToolbar>
-			<hr/>
-			<PostList postData={@state.postData} />
-			<Button onClick={@handleLoadNextPage}>load</Button>
-			<span>page: {@state.currentPage}</span>
-			<PostModalPayload isModalOpen={@state.isModalOpen} editPost={@state.editPost} />
-		</div>
+	_submit: ->
+		@refs.postForm.submit()
 
 	_onChange: ->
 		@setState getAllStoreData()
+
+	render: ->
+		styles =
+			postForm:
+				padding: '16px'
+				margin: '20px 0'
+
+			input:
+				marginBottom: '16px'
+
+		<div className='container'>
+			<div>
+				<label>Order by</label>
+				<select ref='orderType' className='browser-default' value={@state.orderType} onChange={@_onOrderChange}>
+					<option key='0' value='created_at'>最新</option>
+					<option key='1' value='updated_at'>更新</option>
+					<option key='2' value='hot'>熱門</option>
+				</select>
+			</div>
+			
+			<div className='z-depth-1' style={styles.postForm}>
+				<div style={styles.input}>
+					<PostForm ref='postForm' />
+				</div>
+				<div className='right-align'>
+					<a className='waves-effect waves-light btn' onClick={@_submit}>Submit</a>
+				</div>
+			</div>
+			<PostList postData={@state.postData} />
+
+			<a className="waves-effect waves-light btn" onClick={@_handleLoadNextPage}>next</a>
+			<span>page: {@state.currentPage}</span>
+		</div>
 
 module.exports = PostRiver

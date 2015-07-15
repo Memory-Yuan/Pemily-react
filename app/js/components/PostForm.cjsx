@@ -1,50 +1,90 @@
-React = require 'react'
-RB = require 'react-bootstrap'
-{Input, ButtonInput} = RB
+Joi = require 'joi'
+ValidationMixin = require 'react-validation-mixin'
 PostAction = require '../actions/PostAction'
 
 PostForm = React.createClass
+
+	displayName: 'PostForm'
+
+	mixins: [ValidationMixin]
+
+	validatorTypes:
+		title: Joi.string().required().label('Title')
+		content: Joi.string().required().label('Content')
+
+	propTypes:
+		post: React.PropTypes.object
+
 	getInitialState: ->
 		if @props.post
-			post: @props.post
+			title: @props.post.title
+			content: @props.post.content
 		else
-			post: {title: '', content: ''}
+			title: ''
+			content: ''
 
-	handleChange: ->
-		post = @state.post
-		post.title = @refs.postTitle.getValue()
-		post.content = @refs.postContent.getValue()
-		@setState post: post
+	submit: (callback) ->
+		@validate (error, validationErrors) =>
+			if error
+				# @setState feedback: 'Form is invalid do not submit'
+			else
+				if @props.post
+					PostAction.updatePost @_getPost()
+				else
+					PostAction.createPost @_getPost()
+				callback() if callback
+				@reset()
 
-	handleSubmit: (e) ->
-		e.preventDefault()
-		return unless (@state.post.content and @state.post.title)
-		if @props.post
-			PostAction.updatePost @state.post
-			PostAction.triggerModal()
+	reset: ->
+		@setState @getInitialState()
+		@clearValidations()
+
+	_handleChange: ->
+		@setState
+			title: @refs.title.getDOMNode().value.trim()
+			content: @refs.content.getDOMNode().value
+
+	_getPost: ->
+		title: @state.title
+		content: @state.content
+		id: if @props.post then @props.post.id else null
+
+	_renderError: (field) ->
+		return null if !@state.errors or $.isEmptyObject(@state.errors)
+		errArr = @state.errors[field]
+		if errArr.length is 0
+			return null
 		else
-			PostAction.createPost @state.post
-			@setState post: {title: '', content: ''}
+			return <span className='red-text text-lighten-1'>{errArr[0]}</span>
 
 	render: ->
-		<form className='form-horizontal' onSubmit={ @handleSubmit }>
-			<Input
-				type='text'
-				placeholder='title'
-				ref='postTitle'
-				value={@state.post.title}
-				onChange={@handleChange}
-				wrapperClassName='col-xs-12'
-				required />
-			<Input
-				type='textarea'
-				placeholder='content'
-				ref='postContent'
-				value={@state.post.content}
-				onChange={@handleChange}
-				wrapperClassName='col-xs-12'
-				required />
-			<ButtonInput type='submit' value='Post' bsStyle='primary' className='pull-right' wrapperClassName='col-xs-12'/>
-		</form>
+		styles =
+			textarea:
+				padding: '0'
+
+		<div>
+			<div className='input-field '>
+				<input
+					id='post_title'
+					ref='title'
+					type='text'
+					value={@state.title}
+					onChange={@_handleChange} />
+		        <label htmlFor='post_title' className='active'>Title</label>
+		        {@_renderError('title')}
+			</div>
+
+			<div className='input-field '>
+				<textarea
+					id='post_content'
+					ref='content'
+					value={@state.content}
+					className='materialize-textarea'
+					style={styles.textarea}
+					onChange={@_handleChange} ></textarea>
+		        <label htmlFor='post_content' className='active'>Content</label>
+		        {@_renderError('content')}
+			</div>
+		</div>
 
 module.exports = PostForm

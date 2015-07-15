@@ -1,38 +1,63 @@
-React = require 'react'
+Joi = require 'joi'
+ValidationMixin = require 'react-validation-mixin'
 PetAction = require '../actions/PetAction'
-RB = require 'react-bootstrap'
-{Input, ButtonInput} = RB
 
 PetForm = React.createClass
+
+	displayName: 'PetForm'
+
+	mixins: [ValidationMixin]
+
+	validatorTypes:
+		name: Joi.string().required().label('Name')
+
+	propTypes:
+		pet: React.PropTypes.object
+
 	getInitialState: ->
-		if @props.pet then pet: @props.pet else pet: {name: ''}
+		name: if @props.pet then @props.pet.name else ''
 
-	handleChange: ->
-		pet = @state.pet
-		pet.name = @refs.petName.getValue()
-		@setState pet: pet
+	submit: (callback) ->
+		@validate (error, validationErrors) =>
+			if error
+				# @setState feedback: 'Form is invalid do not submit'
+			else
+				if @props.pet 
+					PetAction.updatePet @_getPet()
+				else
+					PetAction.createPet @_getPet()
+				callback() if callback
+				@reset()
 
-	handleSubmit: (e) ->
-		e.preventDefault()
-		return unless @state.pet.name
+	reset: ->
+		@setState @getInitialState()
+		@clearValidations()
 
-		if @props.pet 
-			PetAction.updatePet @state.pet
+	_getPet: ->
+		name: @state.name
+		id: if @props.pet then @props.pet.id else null
+
+	_handleChange: ->
+		@setState name: @refs.name.getDOMNode().value.trim()
+
+	_renderError: (field) ->
+		return null if !@state.errors or $.isEmptyObject(@state.errors)
+		errArr = @state.errors[field]
+		if errArr.length is 0
+			return null
 		else
-			PetAction.createPet @state.pet
-		PetAction.triggerModal()
+			return <span className='red-text text-lighten-1'>{errArr[0]}</span>
 
 	render: ->
-		<form className='form-inline' onSubmit={ @handleSubmit }>
-			<Input
+		<div className='input-field '>
+			<input
+				id='pet_name'
+				ref='name'
 				type='text'
-				label='Name'
-				placeholder='pet name'
-				ref='petName'
-				value={@state.pet.name}
-				onChange={@handleChange}
-				required />
-			<ButtonInput type='submit' value='Post' bsStyle='primary' className='pull-right' wrapperClassName='col-xs-12'/>
-		</form>
+				value={@state.name}
+				onChange={@_handleChange} />
+	        <label htmlFor='pet_name' className='active'>Name</label>
+	        {@_renderError('name')}
+		</div>
 
 module.exports = PetForm

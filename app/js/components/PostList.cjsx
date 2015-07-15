@@ -1,14 +1,13 @@
-React = require 'react'
 Post = require './PostNode'
 
 PostList = React.createClass
-	render: ->
-		warpStyle = 
-			paddingLeft: '50px'
 
+	displayName: 'PostList'
+
+	render: ->
 		postNodes = @props.postData.map (post, index) =>
 			<Post key={index} post={post} idx={index} />
-		<div style={warpStyle}>
+		<div>
 			{ postNodes }
 		</div>
 

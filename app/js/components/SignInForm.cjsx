@@ -1,53 +1,75 @@
-React = require 'react'
+Joi = require 'joi'
+ValidationMixin = require 'react-validation-mixin'
 AuthAction = require '../actions/AuthAction'
-RB = require 'react-bootstrap'
-{Input, ButtonInput} = RB
 
 SigninForm = React.createClass
+
+	displayName: 'SignInForm'
+
+	mixins: [ValidationMixin]
+
+	validatorTypes:
+		email: Joi.string().email().required().label('Email')
+		password: Joi.string().alphanum().min(8).max(30).required().label('Password')
+
 	getInitialState: ->
 		email: ''
 		password: ''
 
-	handleChange: ->
+	_handleChange: ->
 		@setState
-			email: @refs.email.getValue()
-			password: @refs.password.getValue()
+			email: @refs.email.getDOMNode().value.trim()
+			password: @refs.password.getDOMNode().value.trim()
 
-	handleSubmit: (e) ->
-		e.preventDefault()
-		AuthAction.signin @state.email, @state.password
-		@setState email: '', password: ''
+	_handleSubmit: ->
+		@validate (error, validationErrors) =>
+			if error
+				console.log 'invalid'
+				# @setState feedback: 'Form is invalid do not submit'
+			else
+				AuthAction.signin @state.email, @state.password
+				@_reset()
+
+	_reset: ->
+		@setState @getInitialState()
+		@clearValidations()
+
+	_renderError: (field) ->
+		return null if !@state.errors or $.isEmptyObject(@state.errors)
+		errArr = @state.errors[field]
+		if errArr.length is 0
+			return null
+		else
+			return <span className='red-text text-lighten-1'>{errArr[0]}</span>
 
 	render: ->
-		btnStyle=
-			height: '80px'
-			width: '80px'
-		<form className='form-horizontal' onSubmit={ @handleSubmit }>
-			<div className='col-xs-10'>
-				<Input
-					type='email'
-					label='email'
-					placeholder='email'
-					labelClassName='col-xs-2'
-					wrapperClassName='col-xs-10'
-					ref='email'
-					value={@state.email}
-					onChange={@handleChange}
-					required/>
-				<Input
-					type='password'
-					label='password'
-					placeholder='password'
-					labelClassName='col-xs-2'
-					wrapperClassName='col-xs-10'
-					ref='password'
-					value={@state.password}
-					onChange={@handleChange}
-					required/>
+		<div>
+			<div>
+				<div className='input-field '>
+					<input
+						id='email'
+						ref='email'
+						type='email'
+						value={@state.email}
+						onChange={@_handleChange} />
+			        <label htmlFor='email'>Email</label>
+			        {@_renderError('email')}
+				</div>
+				<div className='input-field'>
+					<input
+						id='password'
+						ref='password'
+						type='password'
+						value={@state.password}
+						onChange={@_handleChange} />
+			        <label htmlFor='password'>Password</label>
+			        {@_renderError('password')}
+				</div>
 			</div>
-			<div className='col-xs-2'>
-				<ButtonInput type='submit' value='sign in' bsStyle='primary' style={btnStyle}/>
+			<div className='right-align'>
+				<a href='#/register' className='waves-effect waves-teal btn-flat'>Register</a>
+				<a className='waves-effect waves-light btn-large' onClick={@_handleSubmit}>Submit</a>
 			</div>
-		</form>
+		</div>
 
 module.exports = SigninForm

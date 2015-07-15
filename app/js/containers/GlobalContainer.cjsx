@@ -1,4 +1,3 @@
-React = require 'react'
 AuthAction = require '../actions/AuthAction'
 AuthStore = require '../stores/AuthStore'
 PetAction = require '../actions/PetAction'
@@ -11,6 +10,9 @@ getAllStoreData = ->
 	selectedPetData: PetStore.getSelectedPetData()
 
 GlobalContainer = React.createClass
+
+	displayName: 'GlobalContainer'
+
 	getInitialState: -> getAllStoreData()
 
 	componentDidMount: ->
@@ -28,12 +30,12 @@ GlobalContainer = React.createClass
 			React.cloneElement(child, @state)
 		)
 
+	_onChange: ->
+		@setState getAllStoreData()
+
 	render: ->
 		<div>
 			{@renderChild()}
 		</div>
-
-	_onChange: ->
-		@setState getAllStoreData()
 
 module.exports = GlobalContainer

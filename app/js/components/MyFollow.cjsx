@@ -1,7 +1,6 @@
-React = require 'react'
 PetAction = require '../actions/PetAction'
 PetStore = require '../stores/PetStore'
-PetList = require './PetList'
+FollowList = require './FollowList'
 DocumentTitle = require 'react-document-title'
 Mixins = require '../mixins/Mixins'
 
@@ -9,6 +8,9 @@ getAllStoreData = ->
 	myFollowedPetsData: PetStore.getMyFollowedPets()
 
 MyFollow = React.createClass
+
+	displayName: 'MyFollow'
+
 	mixins: [Mixins.Authenticated]
 
 	getInitialState: -> getAllStoreData()
@@ -20,14 +22,15 @@ MyFollow = React.createClass
 	componentWillUnmount: ->
 		PetStore.removeChangeListener(@_onChange)
 
-	render: ->
-		<DocumentTitle title="My followed pets | Pemily">
-			<div>
-				<h1>My followed pets</h1>
-				<PetList petsData={@state.myFollowedPetsData} nodeType='follow' />
-			</div>
-		</DocumentTitle>
 	_onChange: ->
 		@setState getAllStoreData()
+
+	render: ->
+		<DocumentTitle title="My followed pets | Pemily">
+			<div className='container'>
+				<h1>My followed pets</h1>
+				<FollowList petsData={@state.myFollowedPetsData} />
+			</div>
+		</DocumentTitle>
 
 module.exports = MyFollow

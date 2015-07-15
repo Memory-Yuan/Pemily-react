@@ -1,23 +1,25 @@
-React = require 'react'
 Comment = require './CommentNode'
-RB = require 'react-bootstrap'
-{ ListGroup, ListGroupItem } = RB
-CommentForm = require './CommentForm'
+CommentFormBox = require './CommentFormBox'
 
 CommentList = React.createClass
+
+	displayName: 'CommentList'
+
+	propTypes:
+		commentsData: React.PropTypes.array
+		post_id: React.PropTypes.number.isRequired
+		editId: React.PropTypes.number
+
 	render: ->
 		commentNodes = @props.commentsData.map (comment, index) =>
-			if @props.editIdx is index
-				<ListGroupItem key={index}>
-					<CommentForm comment={comment}/>
-				</ListGroupItem>
+			if @props.editId is comment.id
+				<CommentFormBox key={index} comment={comment} post_id={@props.post_id} form_id="comment_edit_#{@props.post_id}_#{index}" />
 			else
 				<Comment key={index} idx={index} comment={comment} />
-		<ListGroup>
+
+		<ul className='collection'>
 			{ commentNodes }
-			<ListGroupItem>
-				<CommentForm post_id={@props.post_id}/>
-			</ListGroupItem>
-		</ListGroup>
+			<CommentFormBox post_id={@props.post_id} form_id="comment_new_#{@props.post_id}" />
+		</ul>
 
 module.exports = CommentList
