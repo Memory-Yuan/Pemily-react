@@ -8,19 +8,23 @@ CommentForm = React.createClass
 
 	mixins: [ValidationMixin]
 
-	validatorTypes:
-		comment: Joi.string().required().label('Comment')
-
 	propTypes:
 		comment: React.PropTypes.object
 		post_id: React.PropTypes.number.isRequired
 		form_id: React.PropTypes.string
 
+	validatorTypes:
+		content: Joi.string().required().label('Comment')
+
+	getValidatorData: ->
+		content: @state.comment.content
+
 	getInitialState: ->
-		if @props.comment
-			comment: @props.comment.content
-		else
-			comment: ''
+		comment:
+			if @props.comment
+				@props.comment
+			else
+				content: ''
 
 	submit: (callback) ->
 		@validate (error, validationErrors) =>
@@ -28,9 +32,9 @@ CommentForm = React.createClass
 				# @setState feedback: 'Form is invalid do not submit'
 			else
 				if @props.comment
-					PostAction.updateComment @_getComment()
+					PostAction.updateComment @state.comment
 				else
-					PostAction.createComment @_getComment(), @props.post_id
+					PostAction.createComment @state.comment, @props.post_id
 				callback() if callback
 				@reset()
 
@@ -39,15 +43,12 @@ CommentForm = React.createClass
 		@clearValidations()
 
 	_handleChange: ->
-		@setState comment: @refs.comment.getDOMNode().value
-
-	_getComment: ->
-		content: @state.comment
-		id: if @props.comment then @props.comment.id else null
-		post_id: if @props.comment then @props.post_id else null
+		comment = @state.comment
+		comment.content = @refs.comment_content.getDOMNode().value
+		@setState comment: comment
 
 	_renderError: (field) ->
-		return null if !@state.errors or $.isEmptyObject(@state.errors)
+		return null if !@state.errors or $.isEmptyObject(@state.errors) or !@state.errors[field]
 		errArr = @state.errors[field]
 		if errArr.length is 0
 			return null
@@ -63,13 +64,13 @@ CommentForm = React.createClass
 			<div className='input-field'>
 				<textarea
 					id="#{@props.form_id}_content"
-					ref='comment'
-					value={@state.comment}
+					ref='comment_content'
+					value={@state.comment.content}
 					className='materialize-textarea'
 					style={styles.textarea}
 					onChange={@_handleChange} />
 		        <label htmlFor="#{@props.form_id}_content" className='active'>Comment</label>
-		        {@_renderError('comment')}
+		        {@_renderError('content')}
 			</div>
 		</div>
 

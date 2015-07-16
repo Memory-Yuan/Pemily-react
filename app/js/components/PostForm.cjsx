@@ -8,20 +8,24 @@ PostForm = React.createClass
 
 	mixins: [ValidationMixin]
 
+	propTypes:
+		post: React.PropTypes.object
+
 	validatorTypes:
 		title: Joi.string().required().label('Title')
 		content: Joi.string().required().label('Content')
 
-	propTypes:
-		post: React.PropTypes.object
+	getValidatorData: ->
+		title: @state.post.title
+		content: @state.post.content
 
 	getInitialState: ->
-		if @props.post
-			title: @props.post.title
-			content: @props.post.content
-		else
-			title: ''
-			content: ''
+		post:
+			if @props.post
+				@props.post
+			else
+				title: ''
+				content: ''
 
 	submit: (callback) ->
 		@validate (error, validationErrors) =>
@@ -29,9 +33,9 @@ PostForm = React.createClass
 				# @setState feedback: 'Form is invalid do not submit'
 			else
 				if @props.post
-					PostAction.updatePost @_getPost()
+					PostAction.updatePost @state.post
 				else
-					PostAction.createPost @_getPost()
+					PostAction.createPost @state.post
 				callback() if callback
 				@reset()
 
@@ -40,17 +44,13 @@ PostForm = React.createClass
 		@clearValidations()
 
 	_handleChange: ->
-		@setState
-			title: @refs.title.getDOMNode().value.trim()
-			content: @refs.content.getDOMNode().value
-
-	_getPost: ->
-		title: @state.title
-		content: @state.content
-		id: if @props.post then @props.post.id else null
+		post = @state.post
+		post.title = @refs.post_title.getDOMNode().value.trim()
+		post.content = @refs.post_content.getDOMNode().value
+		@setState post: post
 
 	_renderError: (field) ->
-		return null if !@state.errors or $.isEmptyObject(@state.errors)
+		return null if !@state.errors or $.isEmptyObject(@state.errors) or !@state.errors[field]
 		errArr = @state.errors[field]
 		if errArr.length is 0
 			return null
@@ -66,9 +66,9 @@ PostForm = React.createClass
 			<div className='input-field '>
 				<input
 					id='post_title'
-					ref='title'
+					ref='post_title'
 					type='text'
-					value={@state.title}
+					value={@state.post.title}
 					onChange={@_handleChange} />
 		        <label htmlFor='post_title' className='active'>Title</label>
 		        {@_renderError('title')}
@@ -77,8 +77,8 @@ PostForm = React.createClass
 			<div className='input-field '>
 				<textarea
 					id='post_content'
-					ref='content'
-					value={@state.content}
+					ref='post_content'
+					value={@state.post.content}
 					className='materialize-textarea'
 					style={styles.textarea}
 					onChange={@_handleChange} ></textarea>

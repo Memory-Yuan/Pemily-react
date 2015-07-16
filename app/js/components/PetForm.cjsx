@@ -8,14 +8,17 @@ PetForm = React.createClass
 
 	mixins: [ValidationMixin]
 
-	validatorTypes:
-		name: Joi.string().required().label('Name')
-
 	propTypes:
 		pet: React.PropTypes.object
 
+	validatorTypes:
+		name: Joi.string().required().label('Name')
+
+	getValidatorData: ->
+		name: @state.pet.name
+
 	getInitialState: ->
-		name: if @props.pet then @props.pet.name else ''
+		pet: if @props.pet then @props.pet else {name: ''}
 
 	submit: (callback) ->
 		@validate (error, validationErrors) =>
@@ -23,9 +26,9 @@ PetForm = React.createClass
 				# @setState feedback: 'Form is invalid do not submit'
 			else
 				if @props.pet 
-					PetAction.updatePet @_getPet()
+					PetAction.updatePet @state.pet
 				else
-					PetAction.createPet @_getPet()
+					PetAction.createPet @state.pet
 				callback() if callback
 				@reset()
 
@@ -33,15 +36,13 @@ PetForm = React.createClass
 		@setState @getInitialState()
 		@clearValidations()
 
-	_getPet: ->
-		name: @state.name
-		id: if @props.pet then @props.pet.id else null
-
 	_handleChange: ->
-		@setState name: @refs.name.getDOMNode().value.trim()
+		pet = @state.pet
+		pet.name = @refs.pet_name.getDOMNode().value.trim()
+		@setState pet: pet
 
 	_renderError: (field) ->
-		return null if !@state.errors or $.isEmptyObject(@state.errors)
+		return null if !@state.errors or $.isEmptyObject(@state.errors) or !@state.errors[field]
 		errArr = @state.errors[field]
 		if errArr.length is 0
 			return null
@@ -52,9 +53,9 @@ PetForm = React.createClass
 		<div className='input-field '>
 			<input
 				id='pet_name'
-				ref='name'
+				ref='pet_name'
 				type='text'
-				value={@state.name}
+				value={@state.pet.name}
 				onChange={@_handleChange} />
 	        <label htmlFor='pet_name' className='active'>Name</label>
 	        {@_renderError('name')}
