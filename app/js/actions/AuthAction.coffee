@@ -3,7 +3,7 @@ AppConstants = require '../constants/AppConstants'
 ActionTypes = AppConstants.ActionTypes
 ErrorMsgs = AppConstants.ErrorMsgs
 ApiUrl = "#{AppConstants.APIUrl}/auth"
-AuthStore = require '../stores/AuthStore'
+UserAction = require '../actions/UserAction'
 
 AuthAction = 
 	signin: (email, password) ->
@@ -14,7 +14,7 @@ AuthAction =
 			data: email: email, password: password
 		.done (result) =>
 			AppDispatcher.dispatch actionType: ActionTypes.AUTH_STORE_API_TOKEN, token: result.token
-			@getUser()
+			UserAction.getUser()
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.HANDLE_FAILED, xhr: xhr, at: 'auth_signin'
 
@@ -22,27 +22,5 @@ AuthAction =
 		AppDispatcher.dispatch actionType: ActionTypes.AUTH_CLEAN
 		AppDispatcher.dispatch actionType: ActionTypes.USER_CLEAN_USER_DATA
 		AppDispatcher.dispatch actionType: ActionTypes.PET_CLEAN_SELECTED_PET_DATA
-
-	register: (user) ->
-		$.ajax
-			url: "#{ApiUrl}/register"
-			dataType: 'json'
-			type: 'POST'
-			data: user: user
-		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.USER_REGISTER_SUCCESS
-		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.HANDLE_FAILED, xhr: xhr, at: 'user_register'
-
-	getUser: ->
-		$.ajax
-			url: "#{ApiUrl}/user_data"
-			dataType: 'json'
-			beforeSend: (xhr) ->
-				xhr.setRequestHeader("Authorization", AuthStore.getToken())
-		.done (result) =>
-			AppDispatcher.dispatch actionType: ActionTypes.USER_LOADED_USER_DATA, content: result
-		.fail (xhr, status, err) =>
-			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
 module.exports = AuthAction

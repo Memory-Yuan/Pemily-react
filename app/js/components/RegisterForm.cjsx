@@ -1,6 +1,6 @@
 Joi = require 'joi'
 ValidationMixin = require 'react-validation-mixin'
-AuthAction = require '../actions/AuthAction'
+UserAction = require '../actions/UserAction'
 
 RegisterForm = React.createClass
 
@@ -30,7 +30,7 @@ RegisterForm = React.createClass
 				console.log 'invalid'
 				# @setState feedback: 'Form is invalid do not submit'
 			else
-				AuthAction.register
+				UserAction.register
 					email: @state.email
 					password: @state.password
 					password_confirmation: @state.password_confirmation

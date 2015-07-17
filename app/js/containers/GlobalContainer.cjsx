@@ -1,11 +1,12 @@
-AuthAction = require '../actions/AuthAction'
-AuthStore = require '../stores/AuthStore'
+UserAction = require '../actions/UserAction'
 PetAction = require '../actions/PetAction'
+UserStore = require '../stores/UserStore'
+AuthStore = require '../stores/AuthStore'
 PetStore = require '../stores/PetStore'
 
 getAllStoreData = ->
 	isAuthenticated: AuthStore.isAuthenticated()
-	userData: AuthStore.getUserData()
+	userData: UserStore.getUserData()
 	selectedPetId: PetStore.getSelectedPetId()
 	selectedPetData: PetStore.getSelectedPetData()
 
@@ -16,12 +17,14 @@ GlobalContainer = React.createClass
 	getInitialState: -> getAllStoreData()
 
 	componentDidMount: ->
+		UserStore.addChangeListener(@_onChange)
 		AuthStore.addChangeListener(@_onChange)
 		PetStore.addChangeListener(@_onChange)
-		AuthAction.getUser() if @state.isAuthenticated
+		UserAction.getUser() if @state.isAuthenticated
 		PetAction.getSelectedPet(@state.selectedPetId) if @state.selectedPetId
 
 	componentWillUnmount: ->
+		UserStore.removeChangeListener(@_onChange)
 		AuthStore.removeChangeListener(@_onChange)
 		PetStore.removeChangeListener(@_onChange)
 

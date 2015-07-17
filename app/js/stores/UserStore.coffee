@@ -7,13 +7,17 @@ LcStorageHelp = require '../help/LcStorageHelp'
 
 CHANGE_EVENT = 'change'
 
-AuthStore = assign({}, EventEmitter.prototype, {
-	isAuthenticated: ->
-		if localStorage.auth then true else false
+_userData = null
 
-	getToken: ->
-		auth = LcStorageHelp.GetDataBy 'auth'
-		if auth then auth.token else false
+_registerStatus = null
+
+AuthStore = assign({}, EventEmitter.prototype, {
+
+	getUserData: ->
+		if localStorage.auth then _userData else null
+
+	getRegisterStatus: ->
+		_registerStatus
 
 	emitChange: ->
 		@emit(CHANGE_EVENT)
@@ -27,11 +31,14 @@ AuthStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register (action) ->
 	switch action.actionType
-		when ActionTypes.AUTH_STORE_API_TOKEN
-			LcStorageHelp.StoreData('auth', {token: action.token})
+		when ActionTypes.USER_LOADED_USER_DATA
+			_userData = action.content
 			AuthStore.emitChange()
-		when ActionTypes.AUTH_CLEAN
-			delete localStorage.auth;
+		when ActionTypes.USER_CLEAN_USER_DATA
+			_userData = null
+			AuthStore.emitChange()
+		when ActionTypes.USER_REGISTER_SUCCESS
+			_registerStatus = 'success'
 			AuthStore.emitChange()
 
 module.exports = AuthStore
