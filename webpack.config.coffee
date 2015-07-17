@@ -47,6 +47,7 @@ config = {
       "window.jQuery": "jquery"
       "root.jQuery": "jquery"
       React: 'react'
+      Radium: 'radium'
     )
   ]
 
