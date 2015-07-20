@@ -46,7 +46,7 @@ PostNode = React.createClass
 					</article>
 				</div>
 			</div>
-			<PostModal key={@props.idx} m_id="post_edit_modal_#{@props.idx}" m_title='Edit post' ref='postModal' post={@props.post} />
+			<PostModal key={@props.idx} m_title='Edit post' ref='postModal' post={@props.post} />
 		</div>
 
 module.exports = PostNode

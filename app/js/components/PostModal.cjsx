@@ -6,20 +6,18 @@ PostModal = React.createClass
 
 	propTypes:
 		post: React.PropTypes.object
-		m_id: React.PropTypes.string
 		m_title: React.PropTypes.string
 
 	getDefaultProps: ->
 		post: null
-		m_id: 'defaulf_modal'
 		m_title: 'Modal Header'
 
 	trigger: ->
 		@_resetData()
-		$('#' + @props.m_id).openModal()
+		$(@refs.postModal.getDOMNode()).openModal()
 
 	dismiss: ->
-		$('#' + @props.m_id).closeModal()
+		$(@refs.postModal.getDOMNode()).closeModal()
 
 	_submit: ->
 		@refs.postForm.submit(@dismiss)
@@ -29,7 +27,7 @@ PostModal = React.createClass
 
 	render: ->
 
-		<div id={@props.m_id} className='modal modal-fixed-footer'>
+		<div ref='postModal' className='modal modal-fixed-footer'>
 			<div className='modal-content'>
 				<h4>{@props.m_title}</h4>
 				<p><PostForm ref='postForm' post={@props.post} /></p>

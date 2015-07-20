@@ -21,7 +21,7 @@ PostRiver = React.createClass
 	componentDidMount: ->
 		PostStore.addChangeListener(@_onChange)
 		PostAction.loadPostsFromServer()
-		$('select').material_select()
+		$(@refs.orderType.getDOMNode()).material_select()
 
 	componentWillUnmount: ->
 		PostStore.removeChangeListener(@_onChange)

@@ -38,7 +38,7 @@ Pet = React.createClass
 				<p>Here is some more information about this product that is only revealed once clicked on.</p>
 			</div>
 
-			<PetModal key={@props.idx} m_id="pet_edit_modal_#{@props.idx}" m_title='Edit pet' ref='petModal' pet={@props.pet} />
+			<PetModal key={@props.idx} m_title='Edit pet' ref='petModal' pet={@props.pet} />
 		</div>
 
 module.exports = Pet

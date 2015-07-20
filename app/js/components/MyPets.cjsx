@@ -35,7 +35,7 @@ MyPets = React.createClass
 				<h1 className='center-align'>My pets</h1>
 				<a className='waves-effect waves-light btn' onClick={@_newPet}>New</a>
 				<PetList petsData={@state.myPetsData} />
-				<PetModal m_id='pet_new_modal' m_title='New pet' ref='petModal' />
+				<PetModal m_title='New pet' ref='petModal' />
 			</div>
 		</DocumentTitle>
 

@@ -7,9 +7,6 @@ Header = React.createClass
 
 	mixins: [Router.Navigation, Router.State]
 
-	componentDidMount: ->
-		$('.button-collapse').sideNav()
-
 	_signout: ->
 		AuthAction.signout()
 
