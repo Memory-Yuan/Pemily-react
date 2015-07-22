@@ -28,4 +28,21 @@ UserAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
+	uploadAvatar: (avatar)->
+		fd = new FormData()
+		fd.append('avatar', avatar)
+		$.ajax
+			url: "#{ApiUrl}/upload_avatar"
+			type: 'POST'
+			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+			data: fd
+			processData: false
+			contentType: false
+		.done (result) =>
+			@getUser()
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
+
 module.exports = UserAction

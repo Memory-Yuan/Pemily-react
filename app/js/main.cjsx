@@ -18,7 +18,9 @@ PetProfile = require './components/PetProfile'
 PetsAll = require './components/PetsAll'
 PetProfileIndex = require './components/PetProfileIndex'
 PostRiver = require './components/PostRiver'
-
+UserProfile = require './components/UserProfile'
+UserProfileIndex = require './components/UserProfileIndex'
+UserProfileAvatarEdit = require './components/UserProfileAvatarEdit.cjsx'
 ###
 create & update時預先顯示結果的處理
 loading
@@ -44,6 +46,10 @@ routes = (
 		<Route name='pets' handler={PetsAll}/>
 		<Route path='pets/:id' handler={PetProfile}>
 			<DefaultRoute handler={PetProfileIndex}/>
+		</Route>
+		<Route name='user_profile' handler={UserProfile}>
+			<DefaultRoute handler={UserProfileIndex}/>
+			<Route name='avatar' path='avatar' handler={UserProfileAvatarEdit}/>
 		</Route>
 		<DefaultRoute handler={Index}/>
 		<NotFoundRoute handler={NotFound} />

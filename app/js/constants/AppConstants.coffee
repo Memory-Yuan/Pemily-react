@@ -1,6 +1,6 @@
 keyMirror = require 'keymirror'
 
-module.exports = 
+AppConstants = 
 	ActionTypes: keyMirror
 		HANDLE_FAILED: null,
 		FAILED: null,
@@ -32,9 +32,12 @@ module.exports =
 		COMMENT_EDIT: null,
 		COMMENT_EDIT_CANCEL: null
 
+	APIBase: 'http://localhost:3000'
 	APIUrl: 'http://localhost:3000/api/v1'
 	DefaultOrder: 'updated_at'
 	DefaultPerPage: 10
 	ErrorMsgs:
 		Unauthorized: '帳號密碼錯誤。'
 		RegisterFailed: '註冊失敗。'
+
+module.exports = AppConstants

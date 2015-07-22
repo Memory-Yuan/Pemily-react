@@ -16,7 +16,8 @@ Header = React.createClass
 			<li key='1'><a href='#/myfollow'>My followed pets</a></li>
 			<li key='2'><a href='#/channel'>My Channel</a></li>
 			<li key='3' className='divider'></li>
-			<li key='4'><a href='#' onClick={@_signout}>Sign out</a></li>
+			<li key='4'><a href='#/user_profile'>Profile</a></li>
+			<li key='5'><a href='#' onClick={@_signout}>Sign out</a></li>
 		]
 
 		unAuthLink = [
@@ -29,7 +30,7 @@ Header = React.createClass
 		email = if @props.userData? then @props.userData.email else 'no data'
 		if @props.selectedPetData?
 			petName = @props.selectedPetData.name
-			petUrl = '#/pets/#{@props.selectedPetData.id}'
+			petUrl = "#/pets/#{@props.selectedPetData.id}"
 		else
 			petName = 'no data'
 			petUrl = '#'
@@ -67,7 +68,8 @@ Header = React.createClass
 				<li key='1'><a href='#/myfollow'>My followed pets</a></li>
 				<li key='2'><a href='#/channel'>My Channel</a></li>
 				<li key='3' className='divider'></li>
-				<li key='4'><a href='#' onClick={@_signout}>Sign out</a></li>
+				<li key='4'><a href='#/user_profile'>Profile</a></li>
+				<li key='5'><a href='#' onClick={@_signout}>Sign out</a></li>
 			</ul>
 
 			<ul key='1' id='mobile-side-nav' className='side-nav'>

@@ -1,6 +1,7 @@
 Router = require 'react-router'
 AuthStore = require '../stores/AuthStore'
 ErrorStore = require '../stores/ErrorStore'
+{ APIBase } = require '../constants/AppConstants'
 
 Mixins = 
 	Authenticated:
@@ -37,6 +38,10 @@ Mixins =
 
 		_onErrorMsgChange: ->
 			@setState errMsg: ErrorStore.getErrorMessage(type)
+
+	ApiResource:
+		addApiUrl: (url="") ->
+			APIBase + url
 
 
 module.exports = Mixins
