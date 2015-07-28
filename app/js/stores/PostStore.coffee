@@ -72,6 +72,7 @@ AppDispatcher.register (action) ->
 			PostStore.emitChange()
 		when ActionTypes.COMMENT_CREATE_PREVIOUSLY
 			post_idx = _getPostIdxByID(action.post_id)
+			_postsData[post_idx].comments = [] unless _postsData[post_idx].comments?
 			_postsData[post_idx].comments.push(action.comment)
 			PostStore.emitChange()
 		when ActionTypes.COMMENT_UPDATE_PREVIOUSLY
