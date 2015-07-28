@@ -27,7 +27,7 @@ UserProfile = React.createClass
 		<div className='row' style={styles.wrap}>
 			<div className='col s3'>
 				<div>
-					<img src={@addApiUrl(@props.userData.avatar_square)} alt={@props.userData.email} style={styles.avatar} />
+					<img className='z-depth-1' style={styles.avatar} src={@addApiUrl(@props.userData.avatar_url.medium)} alt={@props.userData.email}/>
 				</div>
 				<div className='collection'>
 					<a href='#/user_profile' className='collection-item'>基本資料</a>

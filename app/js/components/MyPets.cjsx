@@ -32,7 +32,7 @@ MyPets = React.createClass
 	render: ->
 		<DocumentTitle title='My pets | Pemily'>
 			<div className='container'>
-				<h1 className='center-align'>My pets</h1>
+				<h2 className='center-align orange-text'>My pets</h2>
 				<a className='waves-effect waves-light btn' onClick={@_newPet}>New</a>
 				<PetList petsData={@state.myPetsData} />
 				<PetModal m_title='New pet' ref='petModal' />

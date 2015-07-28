@@ -1,9 +1,11 @@
-PetStore = require '../stores/PetStore'
 PostAction = require '../actions/PostAction'
+Mixins = require '../mixins/Mixins'
 
 Comment = React.createClass
 
 	displayName: 'CommentNode'
+
+	mixins: [Mixins.ApiResource]
 
 	propTypes:
 		comment: React.PropTypes.object
@@ -18,7 +20,7 @@ Comment = React.createClass
 
 	render: ->
 		<li className='collection-item avatar'>
-			<img src='images/yuna.jpg' alt='' className='circle' />
+			<img src={@addApiUrl(@props.comment.pet.avatar_url.thumb)} alt={@props.comment.pet.name} className='circle' />
 			<span className='title'>{@props.comment.pet.name}</span>
 			<p>
 				{@props.comment.content}

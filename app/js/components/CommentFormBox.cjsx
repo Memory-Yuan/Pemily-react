@@ -1,10 +1,13 @@
 PetStore = require '../stores/PetStore'
 PostAction = require '../actions/PostAction'
 CommentForm = require './CommentForm'
+Mixins = require '../mixins/Mixins'
 
 CommentFormBox = React.createClass
 
 	displayName: 'CommentFormBox'
+
+	mixins: [Mixins.ApiResource]
 
 	propTypes:
 		comment: React.PropTypes.object
@@ -21,7 +24,6 @@ CommentFormBox = React.createClass
 		selectedPetData = PetStore.getSelectedPetData()
 
 		if selectedPetData?
-			petName = selectedPetData.name
 			comment = if @props.comment then @props.comment else null
 
 			styles =
@@ -43,8 +45,8 @@ CommentFormBox = React.createClass
 
 			return(
 				<li className='collection-item avatar' style={styles.li}>
-					<img src='images/yuna.jpg' alt='' className='circle' />
-					<span className='title'>{petName}</span>
+					<img src={@addApiUrl(selectedPetData.avatar_url.thumb)} alt={selectedPetData.name} className='circle' />
+					<span className='title'>{selectedPetData.name}</span>
 					<div className='row valign-wrapper' style={styles.operate}>
 						<div className='col s10'>
 							<CommentForm ref="commentForm" post_id={@props.post_id} comment={comment} form_id={@props.form_id}/>

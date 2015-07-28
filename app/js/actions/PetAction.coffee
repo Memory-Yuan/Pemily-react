@@ -121,4 +121,40 @@ PetAction =
 		.fail (xhr, status, err) =>
 			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
 
+	uploadAvatar: (pet_id, avatar)->
+		fd = new FormData()
+		fd.append('avatar', avatar)
+		fd.append('file_type', 0)
+		$.ajax
+			url: "#{ApiUrl}/mypets/#{pet_id}/upload_picture"
+			type: 'POST'
+			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+			data: fd
+			processData: false
+			contentType: false
+		.done (result) =>
+			@loadOnePet(pet_id)
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
+
+	uploadCover: (pet_id, cover)->
+		fd = new FormData()
+		fd.append('cover', cover)
+		fd.append('file_type', 1)
+		$.ajax
+			url: "#{ApiUrl}/mypets/#{pet_id}/upload_picture"
+			type: 'POST'
+			dataType: 'json'
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader("Authorization", AuthStore.getToken())
+			data: fd
+			processData: false
+			contentType: false
+		.done (result) =>
+			@loadOnePet(pet_id)
+		.fail (xhr, status, err) =>
+			AppDispatcher.dispatch actionType: ActionTypes.FAILED, xhr: xhr
+
 module.exports = PetAction

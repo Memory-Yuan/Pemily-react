@@ -1,16 +1,17 @@
 AuthAction = require '../actions/AuthAction'
 Router = require 'react-router'
+Mixins = require '../mixins/Mixins'
 
 Header = React.createClass
 
 	displayName: 'Header'
 
-	mixins: [Router.Navigation, Router.State]
+	mixins: [Router.Navigation, Router.State, Mixins.ApiResource]
 
 	_signout: ->
 		AuthAction.signout()
 
-	_getNavLinks: ->
+	_getNavSideContent: ->
 		authLinks = [
 			<li key='0'><a href='#/mypets'>My pets</a></li>
 			<li key='1'><a href='#/myfollow'>My followed pets</a></li>
@@ -26,6 +27,16 @@ Header = React.createClass
 
 		return if @props.isAuthenticated then authLinks else unAuthLink
 
+	_renderSelPet: ->
+		if @props.selectedPetData?
+			<li key='1' style={styles.height100Pa}><a style={styles.height100Pa} href="#/pets/#{@props.selectedPetData.id}">
+				<img style={styles.petAvatar} src={@addApiUrl(@props.selectedPetData.avatar_url.thumb)} />
+				{@props.selectedPetData.name}
+			</a></li>
+		else
+			<li key='1'><a href='#/mypets'>請選擇寵物</a></li>
+
+
 	_getAuthData: ->
 		email = if @props.userData? then @props.userData.email else 'no data'
 		if @props.selectedPetData?
@@ -40,24 +51,20 @@ Header = React.createClass
 			<li key='2'><a href={petUrl}>{petName}</a></li>
 		]
 
+	_initialNavSide: (component)->
+		$(React.findDOMNode(component)).sideNav()
+
 	render: ->
-		styles = 
-			authed:
-				display: if @props.isAuthenticated then 'block' else 'none'
-
-			unauth:
-				display: if @props.isAuthenticated then 'none' else 'block'
-
 		<div>
 			<nav className='orange'>
 				<div className='nav-wrapper'>
 					<a href='#/' className='brand-logo'>PEMILY</a>
-					<a href='#' data-activates='mobile-side-nav' className='button-collapse'><i className='material-icons'>menu</i></a>
-					<ul key='0' className='right hide-on-med-and-down' style={styles.authed}>
-						{@_getAuthData()}
-						<li key='0'><a className='dropdown-button' href='#' data-activates='navbar-dropdown'>Dropdown<i className='material-icons right'>arrow_drop_down</i></a></li>
+					<a href='#' ref={@_initialNavSide} data-activates='mobile-side-nav' className='button-collapse'><i className='material-icons'>menu</i></a>
+					<ul key='0' className='right hide-on-med-and-down' style={[styles.isShow(@props.isAuthenticated), styles.height100Pa]}>
+						{@_renderSelPet()}
+						<li key='0'><a className='dropdown-button' data-beloworigin='true' data-constrainwidth='false' href='#' data-activates='navbar-dropdown'>Dropdown<i className='material-icons right'>arrow_drop_down</i></a></li>
 					</ul>
-					<ul key='1' className='right hide-on-med-and-down' style={styles.unauth}>
+					<ul key='1' className='right hide-on-med-and-down' style={styles.isHide(@props.isAuthenticated)}>
 						<li><a href='#/signin'>Sign in</a></li>
 					</ul>
 				</div>
@@ -73,8 +80,21 @@ Header = React.createClass
 			</ul>
 
 			<ul key='1' id='mobile-side-nav' className='side-nav'>
-				{@_getNavLinks()}
+				{@_getNavSideContent()}
 			</ul>
 		</div>
 
-module.exports = Header
+styles =
+	isShow: (s) ->
+		display: if s then 'block' else 'none'
+	isHide: (h) ->
+		display: if h then 'none' else 'block'
+	petAvatar:
+		maxWidth: '50px'
+		maxHeight: '50px'
+		verticalAlign: 'middle';
+		marginRight: '12px'
+	"height100Pa":
+		height: '100%'
+
+module.exports = Radium Header

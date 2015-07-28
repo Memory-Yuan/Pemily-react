@@ -17,13 +17,18 @@ MyFollow = require './components/MyFollow'
 PetProfile = require './components/PetProfile'
 PetsAll = require './components/PetsAll'
 PetProfileIndex = require './components/PetProfileIndex'
+PetProfileAvatarEdit = require './components/PetProfileAvatarEdit'
+PetProfileCoverEdit = require './components/PetProfileCoverEdit'
 PostRiver = require './components/PostRiver'
 UserProfile = require './components/UserProfile'
 UserProfileIndex = require './components/UserProfileIndex'
-UserProfileAvatarEdit = require './components/UserProfileAvatarEdit.cjsx'
+UserProfileAvatarEdit = require './components/UserProfileAvatarEdit'
 ###
 create & update時預先顯示結果的處理
 loading
+immutable obj
+pet card operation btn icon color
+comment bug
 ###
 
 App = React.createClass
@@ -44,12 +49,14 @@ routes = (
 		<Route name='myfollow' handler={MyFollow}/>
 		<Route name='channel' handler={PostRiver}/>
 		<Route name='pets' handler={PetsAll}/>
-		<Route path='pets/:id' handler={PetProfile}>
+		<Route name='pet-profile' path='pets/:petID' handler={PetProfile}>
+			<Route name='pet-avatar' path='avatar' handler={PetProfileAvatarEdit}/>
+			<Route name='pet-cover' path='cover' handler={PetProfileCoverEdit}/>
 			<DefaultRoute handler={PetProfileIndex}/>
 		</Route>
-		<Route name='user_profile' handler={UserProfile}>
+		<Route name='user-profile' path='user_profile' handler={UserProfile}>
 			<DefaultRoute handler={UserProfileIndex}/>
-			<Route name='avatar' path='avatar' handler={UserProfileAvatarEdit}/>
+			<Route name='user-avatar' path='avatar' handler={UserProfileAvatarEdit}/>
 		</Route>
 		<DefaultRoute handler={Index}/>
 		<NotFoundRoute handler={NotFound} />

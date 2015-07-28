@@ -2,10 +2,13 @@ PostAction = require '../actions/PostAction'
 PetStore = require '../stores/PetStore'
 PostModal = require './PostModal'
 CommentBox = require './CommentBox'
+Mixins = require '../mixins/Mixins'
 
 PostNode = React.createClass
 
 	displayName: 'PostNode'
+
+	mixins: [Mixins.ApiResource]
 
 	propTypes:
 		post: React.PropTypes.object
@@ -30,23 +33,24 @@ PostNode = React.createClass
 			return <span/>
 
 	render: ->
-		styles =
-			node:
-				marginBottom: '24px'
-		<div>
-			<div className='z-depth-1 row' style={styles.node}>
-				<div className='col s1'><i className='material-icons medium'>photo</i></div>
-				<div className='col s11'><h4>{@props.post.pet.name}</h4></div>
-				<div className='col s11 offset-s1'>
-					<article>
-						{@_getOperate()}
-						<h5>{@props.post.title}</h5>
-						<p>{@props.post.content}</p>
-						<p><CommentBox commentsData={@props.post.comments} post_id={@props.post.id}/></p>
-					</article>
-				</div>
+
+		<div className='z-depth-1 row col s12' style={styles.node}>
+			<div className='col s2'><img className='responsive-img' src={@addApiUrl(@props.post.pet.avatar_url.thumb)} /></div>
+			<div className='col s10'>
+				<h4>{@props.post.pet.name}</h4>
+				<article>
+					{@_getOperate()}
+					<h5>{@props.post.title}</h5>
+					<p>{@props.post.content}</p>
+					<p><CommentBox commentsData={@props.post.comments} post_id={@props.post.id}/></p>
+				</article>
 			</div>
 			<PostModal key={@props.idx} m_title='Edit post' ref='postModal' post={@props.post} />
 		</div>
+
+styles =
+	node:
+		margin: '0 0 16px 0'
+		padding: '0.75rem 0'
 
 module.exports = PostNode
