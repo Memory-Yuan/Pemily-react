@@ -18,7 +18,7 @@ PetForm = React.createClass
 		name: @state.pet.name
 
 	getInitialState: ->
-		pet: if @props.pet then @props.pet else {name: ''}
+		pet: @props.pet or {name: ''}
 
 	submit: (callback) ->
 		@validate (error, validationErrors) =>
@@ -37,9 +37,9 @@ PetForm = React.createClass
 		@clearValidations()
 
 	_handleChange: ->
-		pet = @state.pet
-		pet.name = @refs.pet_name.getDOMNode().value.trim()
-		@setState pet: pet
+		@setState pet: React.addons.update(@state.pet, {
+			name: {$set: @refs.pet_name.getDOMNode().value.trim()}
+		})
 
 	_renderError: (field) ->
 		return null if !@state.errors or $.isEmptyObject(@state.errors) or !@state.errors[field]

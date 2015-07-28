@@ -20,12 +20,7 @@ PostForm = React.createClass
 		content: @state.post.content
 
 	getInitialState: ->
-		post:
-			if @props.post
-				@props.post
-			else
-				title: ''
-				content: ''
+		post: @props.post or {title: '', content: ''}
 
 	submit: (callback) ->
 		@validate (error, validationErrors) =>
@@ -44,10 +39,10 @@ PostForm = React.createClass
 		@clearValidations()
 
 	_handleChange: ->
-		post = @state.post
-		post.title = @refs.post_title.getDOMNode().value.trim()
-		post.content = @refs.post_content.getDOMNode().value
-		@setState post: post
+		@setState post: React.addons.update(@state.post, {
+			title: {$set: @refs.post_title.getDOMNode().value.trim()}
+			content: {$set: @refs.post_content.getDOMNode().value}
+		})
 
 	_renderError: (field) ->
 		return null if !@state.errors or $.isEmptyObject(@state.errors) or !@state.errors[field]

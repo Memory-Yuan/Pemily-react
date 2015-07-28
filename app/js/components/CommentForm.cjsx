@@ -20,11 +20,8 @@ CommentForm = React.createClass
 		content: @state.comment.content
 
 	getInitialState: ->
-		comment:
-			if @props.comment
-				@props.comment
-			else
-				content: ''
+		comment: @props.comment or {content: ''}
+				
 
 	submit: (callback) ->
 		@validate (error, validationErrors) =>
@@ -43,9 +40,9 @@ CommentForm = React.createClass
 		@clearValidations()
 
 	_handleChange: ->
-		comment = @state.comment
-		comment.content = @refs.comment_content.getDOMNode().value
-		@setState comment: comment
+		@setState comment: React.addons.update(@state.comment, {
+			content: {$set: @refs.comment_content.getDOMNode().value}
+		})
 
 	_renderError: (field) ->
 		return null if !@state.errors or $.isEmptyObject(@state.errors) or !@state.errors[field]
